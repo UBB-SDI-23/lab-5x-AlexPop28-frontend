@@ -1,3 +1,6 @@
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import {
   CircularProgress,
   Container,
@@ -12,14 +15,10 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { BACKEND_API_URL } from "../constants";
 import { Movie } from "../models/movie";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import AddIcon from "@mui/icons-material/Add";
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 export const AllMovies = () => {
   const [loading, setLoading] = useState(false);
