@@ -2,6 +2,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import {
+  Button,
   CircularProgress,
   Container,
   IconButton,
@@ -12,6 +13,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -23,25 +25,36 @@ import { Movie } from "../models/movie";
 export const AllMovies = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [minRating, setMinRating] = useState(0);
+
+  const fetchMovies = async () => {
+    const response = await fetch(
+      `${BACKEND_API_URL}/movies?min_rating=${minRating}`
+    );
+    const fetchedMovies = await response.json();
+    setMovies(fetchedMovies);
+    setLoading(false);
+  };
 
   useEffect(() => {
     setLoading(true);
-    const fetchMovies = async () => {
-      const response = await fetch(`${BACKEND_API_URL}/movies`);
-      const fetchedMovies = await response.json();
-      setMovies(fetchedMovies);
-      setLoading(false);
-    };
     fetchMovies();
   }, []);
 
   return (
     <Container>
       <h1>All movies</h1>
+      <TextField
+        label="Minimum rating"
+        placeholder={"0"}
+        onChange={(event) => setMinRating(Number(event.target.value))}
+      />
+      <Button onClick={fetchMovies}>Filter</Button>
+      <br />
 
       {loading && <CircularProgress />}
       {!loading && movies.length === 0 && (
-        <Typography variant="h1">No movies found</Typography>
+        <Typography variant="h4">No movies found</Typography>
       )}
       {!loading && movies.length > 0 && (
         <TableContainer component={Paper}>
