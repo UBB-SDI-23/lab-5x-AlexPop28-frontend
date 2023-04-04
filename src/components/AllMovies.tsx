@@ -26,15 +26,13 @@ export const AllMovies = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${BACKEND_API_URL}/movies`)
-      .then((response) => {
-        console.log(response);
-        return response.json();
-      })
-      .then((fetchedMovies) => {
-        setMovies(fetchedMovies);
-        setLoading(false);
-      });
+    const fetchMovies = async () => {
+      const response = await fetch(`${BACKEND_API_URL}/movies`);
+      const fetchedMovies = await response.json();
+      setMovies(fetchedMovies);
+      setLoading(false);
+    };
+    fetchMovies();
   }, []);
 
   return (

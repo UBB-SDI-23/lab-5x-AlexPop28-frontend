@@ -26,14 +26,17 @@ export const MovieDetails = () => {
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState<Movie>();
 
+  const BACKEND_MOVIE_URL = `${BACKEND_API_URL}/movies/${movieId}/`;
+
   useEffect(() => {
     setLoading(true);
-    fetch(`${BACKEND_API_URL}/movies/${movieId}`)
-      .then((response) => response.json())
-      .then((fetchedMovie) => {
-        setMovie(fetchedMovie);
-        setLoading(false);
-      });
+    const fetchMovie = async () => {
+      const response = await fetch(BACKEND_MOVIE_URL);
+      const fetchedMovie = await response.json();
+      setMovie(fetchedMovie);
+      setLoading(false);
+    };
+    fetchMovie();
   }, [movieId]);
 
   return (
