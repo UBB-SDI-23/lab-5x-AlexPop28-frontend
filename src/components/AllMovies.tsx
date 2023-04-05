@@ -26,6 +26,10 @@ export const AllMovies = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [minRating, setMinRating] = useState(0);
+  const [sort, setSort] = useState<{ column: string; order: "asc" | "desc" }>({
+    column: "",
+    order: "asc",
+  });
 
   const fetchMovies = async () => {
     const response = await fetch(
@@ -40,6 +44,19 @@ export const AllMovies = () => {
     setLoading(true);
     fetchMovies();
   }, []);
+
+  const sortData = (column: string) => {
+    const isAsc = sort.column === column && sort.order === "asc";
+    setSort({ column, order: isAsc ? "desc" : "asc" });
+    const sortedMovies = [...movies].sort((a: Movie, b: Movie) => {
+      if (isAsc) {
+        return a[column] < b[column] ? -1 : 1;
+      } else {
+        return a[column] < b[column] ? 1 : -1;
+      }
+    });
+    setMovies(sortedMovies);
+  };
 
   return (
     <Container>
@@ -69,10 +86,24 @@ export const AllMovies = () => {
             <TableHead>
               <TableRow>
                 <TableCell align="left">#</TableCell>
-                <TableCell align="left">Name</TableCell>
-                <TableCell align="right">Rating</TableCell>
-                <TableCell align="right">Release year</TableCell>
-                <TableCell align="right">Length (minutes)</TableCell>
+                <TableCell align="left" onClick={() => sortData("name")}>
+                  Name
+                </TableCell>
+                <TableCell align="right" onClick={() => sortData("rating")}>
+                  Rating
+                </TableCell>
+                <TableCell
+                  align="right"
+                  onClick={() => sortData("release_date")}
+                >
+                  Release year
+                </TableCell>
+                <TableCell
+                  align="right"
+                  onClick={() => sortData("length_in_minutes")}
+                >
+                  Length (minutes)
+                </TableCell>
                 <TableCell></TableCell>
               </TableRow>
             </TableHead>

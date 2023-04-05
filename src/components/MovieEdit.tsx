@@ -160,7 +160,7 @@ export const MovieEdit = () => {
       if (directors === undefined) return;
       const response = await fetch(BACKEND_MOVIE_URL);
       const fetchedMovie = await response.json();
-      setMovie(fetchedMovie);
+      setMovie({ ...fetchedMovie, director: fetchedMovie.director.id });
       setLoading(false);
       setDirector(
         directors.find((director) => director.id === fetchedMovie.director.id)

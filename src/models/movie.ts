@@ -8,4 +8,5 @@ export interface Movie {
   length_in_minutes: number;
   director: number | Director;
   actors?: number[];
+  [key: string]: any;
 }
