@@ -52,6 +52,13 @@ export const AllMovies = () => {
       <Button onClick={fetchMovies}>Filter</Button>
       <br />
 
+      <Button>
+        <Link to={`/movies/add`} title="Add new movie">
+          Add new movie
+        </Link>
+      </Button>
+      <br />
+
       {loading && <CircularProgress />}
       {!loading && movies.length === 0 && (
         <Typography variant="h4">No movies found</Typography>
