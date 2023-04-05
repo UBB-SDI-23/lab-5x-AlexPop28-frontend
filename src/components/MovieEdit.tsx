@@ -163,7 +163,7 @@ export const MovieEdit = () => {
       setMovie(fetchedMovie);
       setLoading(false);
       setDirector(
-        directors.find((director) => director.id === fetchedMovie.director)
+        directors.find((director) => director.id === fetchedMovie.director.id)
       );
     };
     fetchMovie();
