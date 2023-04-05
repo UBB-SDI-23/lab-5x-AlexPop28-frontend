@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { BACKEND_API_URL } from "../constants";
+import { Director } from "../models/director";
 import { Movie } from "../models/movie";
 
 export const MovieDetails = () => {
@@ -42,7 +43,7 @@ export const MovieDetails = () => {
   return (
     <Container>
       {!loading && movie === undefined && <CircularProgress />}
-      {!loading && movie !== undefined && (
+      {!loading && movie !== undefined && movie.director && (
         <Card sx={{ justifyContent: "flex-start" }}>
           <CardContent>
             <Typography variant="h1">Movie Details</Typography>
@@ -89,7 +90,7 @@ export const MovieDetails = () => {
                       Director:
                     </TableCell>
                     <TableCell align="left" variant="head">
-                      {movie.director}
+                      {(movie.director as Director).name}
                     </TableCell>
                   </TableRow>
                   <TableRow>
