@@ -93,12 +93,6 @@ export const MovieDetails = () => {
                       {(movie.director as Director).name}
                     </TableCell>
                   </TableRow>
-                  <TableRow>
-                    <TableCell align="left" variant="head">
-                      Actors:
-                    </TableCell>
-                    {movie.actors && <TableCell>{movie.actors}</TableCell>}
-                  </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
