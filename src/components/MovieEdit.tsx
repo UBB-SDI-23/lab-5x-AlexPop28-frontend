@@ -2,7 +2,6 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import {
-  Autocomplete,
   Button,
   Card,
   CardActions,
@@ -26,13 +25,13 @@ import { Movie } from "../models/movie";
 const EditForm = ({
   movie,
   setMovie,
-  director,
+  // director,
   setDirector,
   directors,
 }: {
   movie: Movie;
   setMovie: React.Dispatch<React.SetStateAction<Movie | undefined>>;
-  director: Director;
+  // director: Director;
   setDirector: React.Dispatch<React.SetStateAction<Director | undefined>>;
   directors: Director[];
 }) => {
@@ -123,7 +122,7 @@ const EditForm = ({
           />
         </Grid>
 
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Autocomplete
             value={director}
             onChange={handleDirectorChange}
@@ -132,7 +131,7 @@ const EditForm = ({
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => <TextField {...params} label="Director" />}
           />
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12}>
           <Button variant="contained" color="primary" type="submit">
@@ -173,53 +172,52 @@ export const MovieEdit = () => {
     setLoading(true);
     const fetchDirectors = async () => {
       const response = await fetch(BACKEND_DIRECTORS_URL);
-      const fetchedDirectors = await response.json();
-      setDirectors(fetchedDirectors);
+      const data = await response.json();
+      setDirectors(data.results);
     };
     fetchDirectors();
   }, []);
 
+  console.log(loading, movie, director);
   return (
     <Container>
       {loading && <CircularProgress />}
-      {!loading &&
-        directors !== undefined &&
-        movie !== undefined &&
-        director !== undefined && (
-          <Card>
-            <CardContent>
-              <Typography variant="h1">Movie Edit</Typography>
-              <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
-                <ArrowBackIcon />
-              </IconButton>
-              <EditForm
-                movie={movie}
-                setMovie={setMovie}
-                director={director}
-                setDirector={setDirector}
-                directors={directors}
-              />
-            </CardContent>
-            <CardActions sx={{ flexDirection: "row-reverse" }}>
-              <IconButton
-                component={Link}
-                sx={{ mr: 3 }}
-                to={`/movies/${movie.id}/details`}
-              >
-                <Tooltip title="View movie details" arrow>
-                  <ReadMoreIcon color="primary" />
-                </Tooltip>
-              </IconButton>
-              <IconButton
-                component={Link}
-                sx={{ mr: 3 }}
-                to={`/movies/${movieId}/delete`}
-              >
-                <DeleteForeverIcon sx={{ color: "red" }} />
-              </IconButton>
-            </CardActions>
-          </Card>
-        )}
+      {!loading && directors !== undefined && movie !== undefined && (
+        // director !== undefined && (
+        <Card>
+          <CardContent>
+            <Typography variant="h1">Movie Edit</Typography>
+            <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
+              <ArrowBackIcon />
+            </IconButton>
+            <EditForm
+              movie={movie}
+              setMovie={setMovie}
+              // director={director}
+              setDirector={setDirector}
+              directors={directors}
+            />
+          </CardContent>
+          <CardActions sx={{ flexDirection: "row-reverse" }}>
+            <IconButton
+              component={Link}
+              sx={{ mr: 3 }}
+              to={`/movies/${movie.id}/details`}
+            >
+              <Tooltip title="View movie details" arrow>
+                <ReadMoreIcon color="primary" />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              component={Link}
+              sx={{ mr: 3 }}
+              to={`/movies/${movieId}/delete`}
+            >
+              <DeleteForeverIcon sx={{ color: "red" }} />
+            </IconButton>
+          </CardActions>
+        </Card>
+      )}
     </Container>
   );
 };
