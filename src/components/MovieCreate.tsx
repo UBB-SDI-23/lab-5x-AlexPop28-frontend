@@ -30,7 +30,7 @@ export const MovieCreate = () => {
     length_in_minutes: 0,
     director: 0,
   });
-  const [director, setDirector] = useState<Director>();
+  const [director, setDirector] = useState<Director>(null);
   const [directors, setDirectors] = useState<Director[]>();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
