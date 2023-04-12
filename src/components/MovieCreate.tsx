@@ -12,27 +12,48 @@ import {
   Rating,
   TextField,
   Typography,
+  debounce,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_API_URL } from "../constants";
 import { Director } from "../models/director";
 import { Movie } from "../models/movie";
 
-const EditForm = ({
-  movie,
-  setMovie,
-  director,
-  setDirector,
-  directors,
-}: {
-  movie: Movie;
-  setMovie: React.Dispatch<React.SetStateAction<Movie>>;
-  director: Director;
-  setDirector: React.Dispatch<React.SetStateAction<Director | undefined>>;
-  directors: Director[];
-}) => {
+export const MovieCreate = () => {
+  const [loading, setLoading] = useState(true);
+  const [directorLoading, setDirectorLoading] = useState(true);
+  const [movie, setMovie] = useState<Movie>({
+    name: "",
+    rating: 0,
+    release_date: "",
+    length_in_minutes: 0,
+    director: 0,
+  });
+  const [director, setDirector] = useState<Director>();
+  const [directors, setDirectors] = useState<Director[]>();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const navigate = useNavigate();
+
+  const BACKEND_DIRECTORS_URL = `${BACKEND_API_URL}/directors`;
+  const fetchDirectors = async (name: string) => {
+    setDirectorLoading(true);
+    const response = await fetch(
+      BACKEND_DIRECTORS_URL + `?page=${page}&page_size=${pageSize}&name=${name}`
+    );
+    const data = await response.json();
+    const fetchedDirectors = data.results;
+    setDirectors(fetchedDirectors);
+    if (fetchedDirectors.length > 0) setDirector(fetchedDirectors[0]);
+    setLoading(false);
+    setDirectorLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchDirectors("");
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -76,7 +97,18 @@ const EditForm = ({
     }
   };
 
-  return (
+  const debouncedFetchSuggestions = useCallback(debounce(fetchDirectors, 500), [
+    page,
+  ]);
+
+  const handleDirectorInputChange = (
+    _: React.ChangeEvent<{}>,
+    value: string
+  ) => {
+    debouncedFetchSuggestions(value);
+  };
+
+  const editForm = (
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -122,8 +154,10 @@ const EditForm = ({
         <Grid item xs={12}>
           <Autocomplete
             value={director}
+            loading={directorLoading}
             onChange={handleDirectorChange}
-            options={directors}
+            onInputChange={handleDirectorInputChange}
+            options={directors as Director[]}
             getOptionLabel={(option) => option.name}
             isOptionEqualToValue={(option, value) => option.id === value.id}
             renderInput={(params) => <TextField {...params} label="Director" />}
@@ -138,33 +172,6 @@ const EditForm = ({
       </Grid>
     </form>
   );
-};
-
-export const MovieCreate = () => {
-  const [loading, setLoading] = useState(true);
-  const [movie, setMovie] = useState<Movie>({
-    name: "",
-    rating: 0,
-    release_date: "",
-    length_in_minutes: 0,
-    director: 0,
-  });
-  const [director, setDirector] = useState<Director>();
-  const [directors, setDirectors] = useState<Director[]>();
-
-  const BACKEND_DIRECTORS_URL = `${BACKEND_API_URL}/directors`;
-
-  useEffect(() => {
-    setLoading(true);
-    const fetchDirectors = async () => {
-      const response = await fetch(BACKEND_DIRECTORS_URL);
-      const fetchedDirectors = await response.json();
-      setDirectors(fetchedDirectors);
-      if (fetchedDirectors.length > 0) setDirector(fetchedDirectors[0]);
-      setLoading(false);
-    };
-    fetchDirectors();
-  }, []);
 
   return (
     <Container>
@@ -176,13 +183,7 @@ export const MovieCreate = () => {
             <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
               <ArrowBackIcon />
             </IconButton>
-            <EditForm
-              movie={movie}
-              setMovie={setMovie}
-              director={director}
-              setDirector={setDirector}
-              directors={directors}
-            />
+            {editForm}
           </CardContent>
         </Card>
       )}
