@@ -45,7 +45,7 @@ export const MovieCreate = () => {
     const data = await response.json();
     const fetchedDirectors = data.results;
     setDirectors(fetchedDirectors);
-    if (fetchedDirectors.length > 0) setDirector(fetchedDirectors[0]);
+    // if (fetchedDirectors.length > 0) setDirector(fetchedDirectors[0]);
     setLoading(false);
     setDirectorLoading(false);
   };
