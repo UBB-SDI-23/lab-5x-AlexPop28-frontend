@@ -172,7 +172,6 @@ export const MovieEdit = () => {
     fetchDirectors();
   }, []);
 
-  console.log(loading, movie, director);
   return (
     <Container>
       {loading && <CircularProgress />}

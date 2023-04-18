@@ -12,9 +12,9 @@ import {
   Rating,
   TextField,
   Typography,
-  debounce,
 } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAxios from "../lib/hooks/useAxios";
 import { Director } from "../models/director";
@@ -48,9 +48,17 @@ export const MovieCreate = () => {
     setDirectorLoading(false);
   };
 
+  const debouncedFetchSuggestions = useMemo(
+    () => debounce(fetchDirectors, 500),
+    [page, pageSize]
+  );
+
   useEffect(() => {
     setLoading(true);
     fetchDirectors("");
+    return () => {
+      debouncedFetchSuggestions.cancel();
+    };
   }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -88,10 +96,6 @@ export const MovieCreate = () => {
       setMovie({ ...movie, director: newDirector.id });
     }
   };
-
-  const debouncedFetchSuggestions = useCallback(debounce(fetchDirectors, 500), [
-    page,
-  ]);
 
   const handleDirectorInputChange = (
     _: React.ChangeEvent<{}>,
@@ -146,13 +150,19 @@ export const MovieCreate = () => {
         <Grid item xs={12}>
           <Autocomplete
             value={director}
-            loading={directorLoading}
-            onChange={handleDirectorChange}
-            onInputChange={handleDirectorInputChange}
-            options={directors as Director[]}
-            getOptionLabel={(option) => option.name}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
+            options={directors || []}
             renderInput={(params) => <TextField {...params} label="Director" />}
+            getOptionLabel={(option) => option.name}
+            renderOption={(props, option) => {
+              return (
+                <li {...props} key={option.id}>
+                  {option.name}
+                </li>
+              );
+            }}
+            onInputChange={handleDirectorInputChange}
+            onChange={handleDirectorChange}
+            isOptionEqualToValue={(option, value) => option.id === value.id}
           />
         </Grid>
 
@@ -168,7 +178,7 @@ export const MovieCreate = () => {
   return (
     <Container>
       {loading && <CircularProgress />}
-      {!loading && directors !== undefined && director !== undefined && (
+      {!loading && (
         <Card>
           <CardContent>
             <Typography variant="h1">Create Movie</Typography>
