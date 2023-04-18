@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { BACKEND_API_URL } from "../constants";
+import useAxios from "../lib/hooks/useAxios";
 import { Movie } from "../models/movie";
 
 export const AllMovies = () => {
@@ -32,13 +32,14 @@ export const AllMovies = () => {
     column: "",
     order: "asc",
   });
+  const axios = useAxios();
 
   const fetchMovies = async () => {
     setLoading(true);
-    const response = await fetch(
-      `${BACKEND_API_URL}/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`
+    const { data } = await axios.get(
+      `/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`
     );
-    const { count, next, previous, results } = await response.json();
+    const { count, next, previous, results } = data;
     setMovies(results);
     setLoading(false);
   };

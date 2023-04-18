@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BACKEND_API_URL } from "../constants";
+import useAxios from "../lib/hooks/useAxios";
 import { Director } from "../models/director";
 import { Movie } from "../models/movie";
 
@@ -36,18 +36,13 @@ const EditForm = ({
   directors: Director[];
 }) => {
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const BACKEND_URL = `${BACKEND_API_URL}/movies/${movie.id}/`;
-    const response = await fetch(BACKEND_URL, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(movie),
-    });
-    if (response.ok) {
-      navigate(`/movies/${movie.id}/details`);
-    }
+    const BACKEND_URL = `/movies/${movie.id}/`;
+    await axios.put(BACKEND_URL, movie);
+    navigate(`/movies/${movie.id}/details`);
   };
 
   const handleTextFieldChange =
@@ -149,16 +144,16 @@ export const MovieEdit = () => {
   const [movie, setMovie] = useState<Movie>();
   const [director, setDirector] = useState<Director>();
   const [directors, setDirectors] = useState<Director[]>();
+  const axios = useAxios();
 
-  const BACKEND_MOVIE_URL = `${BACKEND_API_URL}/movies/${movieId}/`;
-  const BACKEND_DIRECTORS_URL = `${BACKEND_API_URL}/directors`;
+  const BACKEND_MOVIE_URL = `/movies/${movieId}/`;
+  const BACKEND_DIRECTORS_URL = `/directors`;
 
   useEffect(() => {
     setLoading(true);
     const fetchMovie = async () => {
       if (directors === undefined) return;
-      const response = await fetch(BACKEND_MOVIE_URL);
-      const fetchedMovie = await response.json();
+      const { data: fetchedMovie } = await axios.get(BACKEND_MOVIE_URL);
       setMovie({ ...fetchedMovie, director: fetchedMovie.director.id });
       setLoading(false);
       setDirector(
@@ -171,8 +166,7 @@ export const MovieEdit = () => {
   useEffect(() => {
     setLoading(true);
     const fetchDirectors = async () => {
-      const response = await fetch(BACKEND_DIRECTORS_URL);
-      const data = await response.json();
+      const { data } = await axios.get(BACKEND_DIRECTORS_URL);
       setDirectors(data.results);
     };
     fetchDirectors();
