@@ -1,12 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { AllMovies } from "./components/AllMovies";
-import { AppHome } from "./components/AppHome";
-import { MovieCreate } from "./components/MovieCreate";
-import { MovieDelete } from "./components/MovieDelete";
-import { MovieDetails } from "./components/MovieDetails";
-import { MovieEdit } from "./components/MovieEdit";
 import "./constants";
+import { AllMovies } from "./pages/AllMovies";
+import { AppHome } from "./pages/AppHome";
+import { MovieCreate } from "./pages/MovieCreate";
+import { MovieDelete } from "./pages/MovieDelete";
+import { MovieDetails } from "./pages/MovieDetails";
+import { MovieEdit } from "./pages/MovieEdit";
 
 export default () => {
   return (

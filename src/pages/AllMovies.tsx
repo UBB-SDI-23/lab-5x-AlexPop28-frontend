@@ -19,9 +19,9 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Pager } from "../components/Pager";
 import useAxios from "../lib/hooks/useAxios";
 import { Movie } from "../models/movie";
-import { Pager } from "./Pager";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
   return `/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`;
