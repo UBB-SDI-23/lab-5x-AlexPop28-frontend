@@ -18,35 +18,45 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import useAxios from "../lib/hooks/useAxios";
 import { Movie } from "../models/movie";
+import { Pager } from "./Pager";
+
+const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
+  return `/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`;
+};
 
 export const AllMovies = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [minRating, setMinRating] = useState(0);
-  const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [count, setCount] = useState(0);
   const [sort, setSort] = useState<{ column: string; order: "asc" | "desc" }>({
     column: "",
     order: "asc",
   });
+  const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
+  const [minRating, setMinRating] = useState(
+    Number(searchParams.get("min_rating")) || 0
+  );
   const axios = useAxios();
 
   const fetchMovies = async () => {
     setLoading(true);
-    const { data } = await axios.get(
-      `/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`
-    );
-    const { count, next, previous, results } = data;
+    const { data } = await axios.get(createMovieUrl(page, pageSize, minRating));
+    const { count, results } = data;
     setMovies(results);
+    setCount(count);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchMovies();
-  }, [page]);
+    navigate(createMovieUrl(page, pageSize, minRating), { replace: true });
+  }, [page, pageSize]);
 
   const sortData = (column: string) => {
     const isAsc = sort.column === column && sort.order === "asc";
@@ -170,15 +180,13 @@ export const AllMovies = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Button disabled={page === 1} onClick={() => setPage(page - 1)}>
-            Previous
-          </Button>
-          <Button
-            disabled={movies.length < pageSize}
-            onClick={() => setPage(page + 1)}
-          >
-            Next
-          </Button>
+          <Pager
+            page={page}
+            setPage={setPage}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
+            count={count}
+          />
         </>
       )}
     </Container>
