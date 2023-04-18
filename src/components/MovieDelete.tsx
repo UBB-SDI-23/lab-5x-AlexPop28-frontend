@@ -9,18 +9,17 @@ import {
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BACKEND_API_URL } from "../constants";
+import useAxios from "../lib/hooks/useAxios";
 
 export const MovieDelete = () => {
   const { movieId } = useParams();
   const navigate = useNavigate();
+  const axios = useAxios();
 
   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const BACKEND_URL = `${BACKEND_API_URL}/movies/${movieId}/`;
-    const response = await fetch(BACKEND_URL, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
+    await axios.delete(BACKEND_URL);
     navigate("/movies");
   };
 

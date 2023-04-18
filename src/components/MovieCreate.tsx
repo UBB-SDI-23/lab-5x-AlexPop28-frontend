@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BACKEND_API_URL } from "../constants";
+import useAxios from "../lib/hooks/useAxios";
 import { Director } from "../models/director";
 import { Movie } from "../models/movie";
 
@@ -30,19 +30,17 @@ export const MovieCreate = () => {
     length_in_minutes: 0,
     director: 0,
   });
-  const [director, setDirector] = useState<Director>(null);
+  const [director, setDirector] = useState<Director | null>(null);
   const [directors, setDirectors] = useState<Director[]>();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const navigate = useNavigate();
+  const axios = useAxios();
 
-  const BACKEND_DIRECTORS_URL = `${BACKEND_API_URL}/directors`;
   const fetchDirectors = async (name: string) => {
     setDirectorLoading(true);
-    const response = await fetch(
-      BACKEND_DIRECTORS_URL + `?page=${page}&page_size=${pageSize}&name=${name}`
-    );
-    const data = await response.json();
+    const BACKEND_DIRECTORS_URL = `/directors?page=${page}&page_size=${pageSize}&name=${name}`;
+    const { data } = await axios.get(BACKEND_DIRECTORS_URL);
     const fetchedDirectors = data.results;
     setDirectors(fetchedDirectors);
     // if (fetchedDirectors.length > 0) setDirector(fetchedDirectors[0]);
@@ -57,15 +55,9 @@ export const MovieCreate = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const BACKEND_URL = `${BACKEND_API_URL}/movies/`;
-    const response = await fetch(BACKEND_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(movie),
-    });
-    if (response.ok) {
-      navigate(`/movies/`);
-    }
+    const BACKEND_URL = `/movies/`;
+    await axios.post(BACKEND_URL, movie);
+    navigate(`/movies/`);
   };
 
   const handleTextFieldChange =

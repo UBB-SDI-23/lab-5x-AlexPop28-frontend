@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { BACKEND_API_URL } from "../constants";
+import useAxios from "../lib/hooks/useAxios";
 import { Director } from "../models/director";
 import { Movie } from "../models/movie";
 
@@ -26,14 +26,14 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState<Movie>();
+  const axios = useAxios();
 
-  const BACKEND_MOVIE_URL = `${BACKEND_API_URL}/movies/${movieId}/`;
+  const BACKEND_MOVIE_URL = `/movies/${movieId}/`;
 
   useEffect(() => {
     setLoading(true);
     const fetchMovie = async () => {
-      const response = await fetch(BACKEND_MOVIE_URL);
-      const fetchedMovie = await response.json();
+      const { data: fetchedMovie } = await axios.get(BACKEND_MOVIE_URL);
       setMovie(fetchedMovie);
       setLoading(false);
     };
