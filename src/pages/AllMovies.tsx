@@ -24,7 +24,11 @@ import useAxios from "../lib/hooks/useAxios";
 import { Movie } from "../models/movie";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
-  return `/movies?page=${page}&page_size=${pageSize}&min_rating=${minRating}`;
+  const searchParams = new URLSearchParams();
+  searchParams.append("page", page.toString());
+  searchParams.append("page_size", pageSize.toString());
+  if (minRating > 0) searchParams.append("min_rating", minRating.toString());
+  return `/movies?${searchParams.toString()}`;
 };
 
 export const AllMovies = () => {
