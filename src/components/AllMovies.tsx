@@ -53,9 +53,13 @@ export const AllMovies = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
+  const loadPage = () => {
     fetchMovies();
     navigate(createMovieUrl(page, pageSize, minRating), { replace: true });
+  };
+
+  useEffect(() => {
+    loadPage();
   }, [page, pageSize]);
 
   const sortData = (column: string) => {
@@ -81,7 +85,7 @@ export const AllMovies = () => {
       />
       <Button
         onClick={() => {
-          page === 1 ? fetchMovies() : setPage(1);
+          page === 1 ? loadPage() : setPage(1);
         }}
       >
         Filter
