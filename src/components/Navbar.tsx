@@ -15,8 +15,8 @@ export const Navbar = () => {
   const path = location.pathname;
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ marginBottom: "20px" }}>
+    <Box sx={{ flexGrow: 1, mb: 10 }}>
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             component={Link}
