@@ -18,9 +18,9 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useAxios from "../lib/hooks/useAxios";
-import { Director } from "../models/director";
-import { Movie } from "../models/movie";
+import useAxios from "../../lib/hooks/useAxios";
+import { Director } from "../../models/director";
+import { Movie } from "../../models/movie";
 
 export const MovieDetails = () => {
   const { movieId } = useParams();

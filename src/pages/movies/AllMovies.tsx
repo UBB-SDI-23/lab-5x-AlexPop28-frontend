@@ -12,10 +12,10 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { GenericTable } from "../components/GenericTable";
-import { Pager } from "../components/Pager";
-import useAxios from "../lib/hooks/useAxios";
-import { Movie } from "../models/movie";
+import { GenericTable } from "../../components/GenericTable";
+import { Pager } from "../../components/Pager";
+import useAxios from "../../lib/hooks/useAxios";
+import { Movie } from "../../models/movie";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
   const searchParams = new URLSearchParams();

@@ -8,8 +8,8 @@ import {
   IconButton,
 } from "@mui/material";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { BACKEND_API_URL } from "../constants";
-import useAxios from "../lib/hooks/useAxios";
+import { BACKEND_API_URL } from "../../constants";
+import useAxios from "../../lib/hooks/useAxios";
 
 export const MovieDelete = () => {
   const { movieId } = useParams();

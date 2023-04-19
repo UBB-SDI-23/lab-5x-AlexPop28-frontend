@@ -16,9 +16,9 @@ import {
 import { debounce } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import useAxios from "../lib/hooks/useAxios";
-import { Director } from "../models/director";
-import { Movie } from "../models/movie";
+import useAxios from "../../lib/hooks/useAxios";
+import { Director } from "../../models/director";
+import { Movie } from "../../models/movie";
 
 export const MovieCreate = () => {
   const [loading, setLoading] = useState(true);

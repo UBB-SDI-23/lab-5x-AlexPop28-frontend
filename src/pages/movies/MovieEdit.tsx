@@ -18,9 +18,9 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import useAxios from "../lib/hooks/useAxios";
-import { Director } from "../models/director";
-import { Movie } from "../models/movie";
+import useAxios from "../../lib/hooks/useAxios";
+import { Director } from "../../models/director";
+import { Movie } from "../../models/movie";
 
 const EditForm = ({
   movie,
