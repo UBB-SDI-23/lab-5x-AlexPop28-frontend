@@ -1,10 +1,11 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { Button, IconButton, TextField, Tooltip } from "@mui/material";
 import { useCallback, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
+import { DeleteButton } from "../../components/DeleteButton";
+import useAxios from "../../lib/hooks/useAxios";
 import { Movie } from "../../models/movie";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
@@ -15,86 +16,86 @@ const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
   return `/movies?${searchParams.toString()}`;
 };
 
-const getColumns = (page: number, pageSize: number) => {
-  return [
-    {
-      headElement: <>#</>,
-      bodyElement: (_: any, index: number) => (
-        <>{pageSize * (page - 1) + index + 1}</>
-      ),
-    },
-    {
-      headElement: <>Name</>,
-      bodyElement: (movie: Movie, _: any) => (
-        <Link to={`/movies/${movie.id}/details`} title="View movie details">
-          {movie.name}
-        </Link>
-      ),
-      sortKey: "name",
-    },
-    {
-      headElement: <>Rating</>,
-      bodyElement: (movie: Movie, _: any) => <>{movie.rating}</>,
-      sortKey: "rating",
-    },
-    {
-      headElement: <>Release year</>,
-      bodyElement: (movie: Movie, _: any) => (
-        <>{movie.release_date.substring(0, 4)}</>
-      ),
-      sortKey: "release_date",
-    },
-    {
-      headElement: <>Length (minutes)</>,
-      bodyElement: (movie: Movie, _: any) => <>{movie.length_in_minutes}</>,
-      sortKey: "length_in_minutes",
-    },
-    {
-      bodyElement: (movie: Movie, _: any) => (
-        <>
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/movies/${movie.id}/details`}
-          >
-            <Tooltip title="View movie details" arrow>
-              <ReadMoreIcon color="primary" />
-            </Tooltip>
-          </IconButton>
-
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/movies/${movie.id}/edit`}
-          >
-            <EditIcon />
-          </IconButton>
-
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/movies/${movie.id}/delete`}
-          >
-            <DeleteForeverIcon sx={{ color: "red" }} />
-          </IconButton>
-        </>
-      ),
-    },
-  ];
-};
-
 export const AllMovies = () => {
   const [searchParams] = useSearchParams();
   const [minRating, setMinRating] = useState(
     Number(searchParams.get("min_rating")) || 0
   );
   const [inputMinRating, setInputMinRating] = useState(0);
+  const navigate = useNavigate();
+  const axios = useAxios();
 
   const createUrl = useCallback(
     (page: number, pageSize: number) =>
       createMovieUrl(page, pageSize, minRating),
     [minRating]
   );
+
+  const getColumns = useCallback((page: number, pageSize: number) => {
+    return [
+      {
+        headElement: <>#</>,
+        bodyElement: (_: any, index: number) => (
+          <>{pageSize * (page - 1) + index + 1}</>
+        ),
+      },
+      {
+        headElement: <>Name</>,
+        bodyElement: (movie: Movie, _: any) => (
+          <Link to={`/movies/${movie.id}/details`} title="View movie details">
+            {movie.name}
+          </Link>
+        ),
+        sortKey: "name",
+      },
+      {
+        headElement: <>Rating</>,
+        bodyElement: (movie: Movie, _: any) => <>{movie.rating}</>,
+        sortKey: "rating",
+      },
+      {
+        headElement: <>Release year</>,
+        bodyElement: (movie: Movie, _: any) => (
+          <>{movie.release_date.substring(0, 4)}</>
+        ),
+        sortKey: "release_date",
+      },
+      {
+        headElement: <>Length (minutes)</>,
+        bodyElement: (movie: Movie, _: any) => <>{movie.length_in_minutes}</>,
+        sortKey: "length_in_minutes",
+      },
+      {
+        bodyElement: (movie: Movie, _: any) => (
+          <>
+            <IconButton
+              component={Link}
+              sx={{ mr: 3 }}
+              to={`/movies/${movie.id}/details`}
+            >
+              <Tooltip title="View movie details" arrow>
+                <ReadMoreIcon color="primary" />
+              </Tooltip>
+            </IconButton>
+
+            <IconButton
+              component={Link}
+              sx={{ mr: 3 }}
+              to={`/movies/${movie.id}/edit`}
+            >
+              <EditIcon />
+            </IconButton>
+
+            <DeleteButton
+              onDelete={async () => {
+                await axios.delete(`/movies/${movie.id}/`);
+              }}
+            />
+          </>
+        ),
+      },
+    ];
+  }, []);
 
   return (
     <AllObjects

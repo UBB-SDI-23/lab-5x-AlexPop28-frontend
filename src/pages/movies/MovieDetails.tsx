@@ -1,5 +1,4 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import {
   Card,
@@ -17,7 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { DeleteButton } from "../../components/DeleteButton";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director } from "../../models/director";
 import { Movie } from "../../models/movie";
@@ -26,6 +26,7 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
   const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState<Movie>();
+  const navigate = useNavigate();
   const axios = useAxios();
 
   const BACKEND_MOVIE_URL = `/movies/${movieId}/`;
@@ -105,13 +106,12 @@ export const MovieDetails = () => {
             >
               <EditIcon />
             </IconButton>
-            <IconButton
-              component={Link}
-              sx={{ mr: 3 }}
-              to={`/movies/${movieId}/delete`}
-            >
-              <DeleteForeverIcon sx={{ color: "red" }} />
-            </IconButton>
+            <DeleteButton
+              onDelete={async () => {
+                await axios.delete(`/movies/${movieId}/`);
+                navigate("/movies");
+              }}
+            />
           </CardActions>
         </Card>
       )}
