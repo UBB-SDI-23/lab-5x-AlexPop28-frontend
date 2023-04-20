@@ -5,14 +5,14 @@ import useAxios from "../lib/hooks/useAxios";
 import { Column, GenericTable } from "./GenericTable";
 import { Pager } from "./Pager";
 
-interface AllMoviesProps {
+interface AllObjectsProps {
   title: string;
   createUrl: (page: number, pageSize: number) => string;
   getColumns: (page: number, pageSize: number) => Column[];
   children?: ReactNode;
 }
 
-export const AllObjects: React.FC<AllMoviesProps> = ({
+export const AllObjects: React.FC<AllObjectsProps> = ({
   title,
   createUrl,
   getColumns,
@@ -40,7 +40,7 @@ export const AllObjects: React.FC<AllMoviesProps> = ({
 
   useEffect(() => {
     fetchObjects();
-  }, [page, pageSize]);
+  }, [page, pageSize, createUrl]);
 
   const columns = getColumns(page, pageSize);
 

@@ -1,20 +1,10 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import {
-  Button,
-  CircularProgress,
-  Container,
-  IconButton,
-  TextField,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { GenericTable } from "../../components/GenericTable";
-import { Pager } from "../../components/Pager";
-import useAxios from "../../lib/hooks/useAxios";
+import { Button, IconButton, TextField, Tooltip } from "@mui/material";
+import { useCallback, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import { AllObjects } from "../../components/AllObjects";
 import { Movie } from "../../models/movie";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
@@ -94,45 +84,33 @@ const getColumns = (page: number, pageSize: number) => {
 };
 
 export const AllMovies = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [pageSize, setPageSize] = useState(10);
-  const [count, setCount] = useState(0);
   const [searchParams] = useSearchParams();
-  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
   const [minRating, setMinRating] = useState(
     Number(searchParams.get("min_rating")) || 0
   );
-  const axios = useAxios();
+  const [inputMinRating, setInputMinRating] = useState(0);
 
-  const fetchMovies = async () => {
-    setLoading(true);
-    const { data } = await axios.get(createMovieUrl(page, pageSize, minRating));
-    const { count, results } = data;
-    setMovies(results);
-    setCount(count);
-    setLoading(false);
-    navigate(createMovieUrl(page, pageSize, minRating), { replace: true });
-  };
-
-  useEffect(() => {
-    fetchMovies();
-  }, [page, pageSize]);
-
-  const columns = getColumns(page, pageSize);
+  const createUrl = useCallback(
+    (page: number, pageSize: number) =>
+      createMovieUrl(page, pageSize, minRating),
+    [minRating]
+  );
 
   return (
-    <Container>
-      <Typography variant="h3">All movies</Typography>
+    <AllObjects
+      title="All movies"
+      createUrl={createUrl}
+      getColumns={getColumns}
+    >
       <TextField
         label="Minimum rating"
         placeholder={"0"}
-        onChange={(event) => setMinRating(Number(event.target.value))}
+        onChange={(event) => setInputMinRating(Number(event.target.value))}
       />
       <Button
         onClick={() => {
-          page === 1 ? fetchMovies() : setPage(1);
+          setMinRating(inputMinRating);
+          console.log(minRating, inputMinRating);
         }}
       >
         Filter
@@ -145,26 +123,6 @@ export const AllMovies = () => {
         </Link>
       </Button>
       <br />
-
-      {loading && <CircularProgress />}
-      {!loading && (
-        <>
-          <GenericTable
-            data={movies}
-            columns={columns}
-            noDataElement={
-              <Typography variant="h4">No movies found</Typography>
-            }
-          />
-          <Pager
-            page={page}
-            setPage={setPage}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            count={count}
-          />
-        </>
-      )}
-    </Container>
+    </AllObjects>
   );
 };
