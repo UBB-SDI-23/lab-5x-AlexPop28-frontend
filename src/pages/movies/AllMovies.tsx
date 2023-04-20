@@ -107,14 +107,7 @@ export const AllMovies = () => {
         placeholder={"0"}
         onChange={(event) => setInputMinRating(Number(event.target.value))}
       />
-      <Button
-        onClick={() => {
-          setMinRating(inputMinRating);
-          console.log(minRating, inputMinRating);
-        }}
-      >
-        Filter
-      </Button>
+      <Button onClick={() => setMinRating(inputMinRating)}>Filter</Button>
       <br />
 
       <Button>
@@ -122,7 +115,6 @@ export const AllMovies = () => {
           Add new movie
         </Link>
       </Button>
-      <br />
     </AllObjects>
   );
 };
