@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-interface Column {
+export interface Column {
   headElement?: JSX.Element;
   bodyElement: (value: any, index: number) => JSX.Element;
   sortKey?: string;

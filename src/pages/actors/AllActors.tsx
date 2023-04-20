@@ -1,19 +1,9 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import {
-  Button,
-  CircularProgress,
-  Container,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { GenericTable } from "../../components/GenericTable";
-import { Pager } from "../../components/Pager";
-import useAxios from "../../lib/hooks/useAxios";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import { Link } from "react-router-dom";
+import { AllObjects } from "../../components/AllObjects";
 import { Actor } from "../../models/actor";
 
 const createActorUrl = (page: number, pageSize: number) => {
@@ -83,60 +73,17 @@ const getColumns = (page: number, pageSize: number) => {
 };
 
 export const AllActors = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [actors, setActors] = useState<Actor[]>([]);
-  const [pageSize, setPageSize] = useState(10);
-  const [count, setCount] = useState(0);
-  const [searchParams] = useSearchParams();
-  const [page, setPage] = useState(Number(searchParams.get("page")) || 1);
-  const axios = useAxios();
-
-  const fetchActors = async () => {
-    setLoading(true);
-    const { data } = await axios.get(createActorUrl(page, pageSize));
-    const { count, results } = data;
-    setActors(results);
-    setCount(count);
-    setLoading(false);
-    navigate(createActorUrl(page, pageSize), { replace: true });
-  };
-
-  useEffect(() => {
-    fetchActors();
-  }, [page, pageSize]);
-
-  const columns = getColumns(page, pageSize);
-
   return (
-    <Container>
-      <Typography variant="h3">All actors</Typography>
+    <AllObjects
+      title="All actors"
+      createUrl={createActorUrl}
+      getColumns={getColumns}
+    >
       <Button>
         <Link to={`/actors/add`} title="Add new actor">
           Add new actor
         </Link>
       </Button>
-      <br />
-
-      {loading && <CircularProgress />}
-      {!loading && (
-        <>
-          <GenericTable
-            data={actors}
-            columns={columns}
-            noDataElement={
-              <Typography variant="h4">No actors found</Typography>
-            }
-          />
-          <Pager
-            page={page}
-            setPage={setPage}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            count={count}
-          />
-        </>
-      )}
-    </Container>
+    </AllObjects>
   );
 };
