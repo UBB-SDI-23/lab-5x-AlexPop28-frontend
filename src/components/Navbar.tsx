@@ -1,5 +1,6 @@
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
 import MovieIcon from "@mui/icons-material/Movie";
+import PersonIcon from "@mui/icons-material/Person";
 import {
   AppBar,
   Box,
@@ -41,6 +42,16 @@ export const Navbar = () => {
             startIcon={<LocalMoviesIcon />}
           >
             Movies
+          </Button>
+          <Button
+            variant={path.startsWith("/actors") ? "outlined" : "text"}
+            to="/actors"
+            component={Link}
+            color="inherit"
+            sx={{ mr: 5 }}
+            startIcon={<PersonIcon />}
+          >
+            Actors
           </Button>
         </Toolbar>
       </AppBar>

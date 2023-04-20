@@ -3,6 +3,7 @@ import "./App.css";
 import { Navbar } from "./components/Navbar";
 import "./constants";
 import { AppHome } from "./pages/AppHome";
+import { AllActors } from "./pages/actors/AllActors";
 import { AllMovies } from "./pages/movies/AllMovies";
 import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieDelete } from "./pages/movies/MovieDelete";
@@ -20,6 +21,7 @@ export default () => {
         <Route path="/movies/:movieId/details" element={<MovieDetails />} />
         <Route path="/movies/:movieId/edit" element={<MovieEdit />}></Route>
         <Route path="/movies/:movieId/delete" element={<MovieDelete />} />
+        <Route path="/actors" element={<AllActors />} />
       </Routes>
     </BrowserRouter>
   );
