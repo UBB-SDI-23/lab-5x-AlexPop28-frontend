@@ -1,5 +1,5 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import { useConfirm } from "material-ui-confirm";
 import { FC } from "react";
 
@@ -19,7 +19,9 @@ export const DeleteButton: FC<DeleteButtonProps> = ({ onDelete }) => {
 
   return (
     <IconButton sx={{ mr: 3 }} onClick={handleClick}>
-      <DeleteForeverIcon sx={{ color: "red" }} />
+      <Tooltip title="Delete" arrow>
+        <DeleteForeverIcon sx={{ color: "red" }} />
+      </Tooltip>
     </IconButton>
   );
 };

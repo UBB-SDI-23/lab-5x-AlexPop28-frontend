@@ -67,7 +67,9 @@ export const MovieEdit = () => {
       {!disabled && (
         <>
           <IconButton sx={{ mr: 3 }} onClick={onSaveChanges}>
-            <LockOpenIcon />
+            <Tooltip title="Save changes" arrow>
+              <LockOpenIcon />
+            </Tooltip>
           </IconButton>
           <DeleteButton
             onDelete={async () => {
