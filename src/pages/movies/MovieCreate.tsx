@@ -1,5 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
+  Button,
   Card,
   CardContent,
   Container,
@@ -40,7 +41,11 @@ export const MovieCreate = () => {
           <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
             <ArrowBackIcon />
           </IconButton>
-          <MovieForm movie={movie} setMovie={setMovie} onSubmit={onSubmit} />
+          <MovieForm movie={movie} setMovie={setMovie}>
+            <Button variant="contained" color="primary" onClick={onSubmit}>
+              Add
+            </Button>
+          </MovieForm>
         </CardContent>
       </Card>
     </Container>

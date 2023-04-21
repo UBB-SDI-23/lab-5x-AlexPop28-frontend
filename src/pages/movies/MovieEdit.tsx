@@ -1,5 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
+  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -67,9 +68,12 @@ export const MovieEdit = () => {
             <MovieForm
               movie={movie}
               setMovie={setMovie}
-              onSubmit={onSubmit}
               defaultDirector={director}
-            />
+            >
+              <Button variant="contained" color="primary" onClick={onSubmit}>
+                Save
+              </Button>
+            </MovieForm>
           )}
         </CardContent>
       </Card>

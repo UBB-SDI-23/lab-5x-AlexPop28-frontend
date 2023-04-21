@@ -2,26 +2,26 @@ import { InputAdornment, Rating, TextField } from "@mui/material";
 import { Dispatch, FC, SetStateAction } from "react";
 import { Director } from "../../models/director";
 import { Movie } from "../../models/movie";
-import { GenericForm } from "../GenericForm";
+import { GridLayout } from "../GridLayout";
 import { DirectorInput } from "./DirectorInput";
 
 interface MovieFormProps {
   movie: Movie;
   setMovie: Dispatch<SetStateAction<Movie>>;
-  onSubmit: () => void;
   disabled?: boolean;
   defaultDirector?: Director;
+  children: JSX.Element;
 }
 
 export const MovieForm: FC<MovieFormProps> = ({
   movie,
   setMovie,
-  onSubmit,
   disabled = false,
   defaultDirector = undefined,
+  children,
 }) => {
   return (
-    <GenericForm onSubmit={onSubmit}>
+    <GridLayout>
       <TextField
         label="Name"
         value={movie.name}
@@ -69,6 +69,7 @@ export const MovieForm: FC<MovieFormProps> = ({
         defaultDirector={defaultDirector}
         disabled={disabled}
       />
-    </GenericForm>
+      {children}
+    </GridLayout>
   );
 };

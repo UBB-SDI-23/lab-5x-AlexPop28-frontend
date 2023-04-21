@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GenericForm } from "../../components/GenericForm";
+import { GridLayout } from "../../components/GridLayout";
 import useAxios from "../../lib/hooks/useAxios";
 import { Actor } from "../../models/actor";
 
@@ -27,7 +27,7 @@ export const ActorCreate = () => {
   const axios = useAxios();
 
   const editForm = (
-    <GenericForm
+    <GridLayout
       onSubmit={async () => {
         try {
           const { data, status } = await axios.post(`/actors/`, actor);
@@ -78,7 +78,7 @@ export const ActorCreate = () => {
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
       />
-    </GenericForm>
+    </GridLayout>
   );
 
   return (
