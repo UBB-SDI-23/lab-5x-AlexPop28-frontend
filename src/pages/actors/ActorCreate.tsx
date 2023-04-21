@@ -1,5 +1,6 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
+  Button,
   Card,
   CardContent,
   Container,
@@ -26,17 +27,17 @@ export const ActorCreate = () => {
   const navigate = useNavigate();
   const axios = useAxios();
 
+  const onSubmit = async () => {
+    try {
+      const { data, status } = await axios.post(`/actors/`, actor);
+      navigate(`/actors/${data.id}/details`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const editForm = (
-    <GridLayout
-      onSubmit={async () => {
-        try {
-          const { data, status } = await axios.post(`/actors/`, actor);
-          navigate(`/actors/${data.id}/details`);
-        } catch (error) {
-          console.log(error);
-        }
-      }}
-    >
+    <GridLayout>
       <TextField
         label="Name"
         value={actor.name}
@@ -78,6 +79,9 @@ export const ActorCreate = () => {
           endAdornment: <InputAdornment position="end">cm</InputAdornment>,
         }}
       />
+      <Button variant="contained" color="primary" onClick={onSubmit}>
+        Add
+      </Button>
     </GridLayout>
   );
 
