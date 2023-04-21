@@ -11,19 +11,25 @@ import {
   Typography,
 } from "@mui/material";
 import { debounce } from "lodash";
-import React, { SetStateAction, useEffect, useMemo, useState } from "react";
+import React, { FC, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GenericForm } from "../../components/GenericForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director } from "../../models/director";
 import { Movie } from "../../models/movie";
 
-const DirectorInput = ({
-  setMovie,
-}: {
+interface DirectorInputProps {
   setMovie: React.Dispatch<SetStateAction<Movie>>;
+  defaultDirector?: Director;
+}
+
+const DirectorInput: FC<DirectorInputProps> = ({
+  setMovie,
+  defaultDirector = undefined,
 }) => {
-  const [director, setDirector] = useState<Director | null>(null);
+  const [director, setDirector] = useState<Director | null>(
+    defaultDirector ?? null
+  );
   const [directors, setDirectors] = useState<Director[]>();
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -34,14 +40,19 @@ const DirectorInput = ({
     setDirectorLoading(true);
     const BACKEND_DIRECTORS_URL = `/directors?page=${page}&page_size=${pageSize}&name=${name}`;
     const { data } = await axios.get(BACKEND_DIRECTORS_URL);
-    const fetchedDirectors = data.results;
+    let fetchedDirectors = data.results;
+    if (director) {
+      if (!fetchedDirectors.find((d: Director) => d.id === director.id)) {
+        fetchedDirectors.push(director);
+      }
+    }
     setDirectors(fetchedDirectors);
     setDirectorLoading(false);
   };
 
   const debouncedFetchSuggestions = useMemo(
     () => debounce(fetchDirectors, 500),
-    [page, pageSize]
+    [page, pageSize, director]
   );
 
   useEffect(() => {
