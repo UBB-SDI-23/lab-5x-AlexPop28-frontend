@@ -1,5 +1,6 @@
 import { InputAdornment, Rating, TextField } from "@mui/material";
 import { Dispatch, FC, SetStateAction } from "react";
+import { Director } from "../../models/director";
 import { Movie } from "../../models/movie";
 import { GenericForm } from "../GenericForm";
 import { DirectorInput } from "./DirectorInput";
@@ -9,6 +10,7 @@ interface MovieFormProps {
   setMovie: Dispatch<SetStateAction<Movie>>;
   onSubmit: () => void;
   disabled?: boolean;
+  defaultDirector?: Director;
 }
 
 export const MovieForm: FC<MovieFormProps> = ({
@@ -16,6 +18,7 @@ export const MovieForm: FC<MovieFormProps> = ({
   setMovie,
   onSubmit,
   disabled = false,
+  defaultDirector = undefined,
 }) => {
   return (
     <GenericForm onSubmit={onSubmit}>
@@ -61,7 +64,11 @@ export const MovieForm: FC<MovieFormProps> = ({
         }}
         disabled={disabled}
       />
-      <DirectorInput setMovie={setMovie} disabled={disabled} />
+      <DirectorInput
+        setMovie={setMovie}
+        defaultDirector={defaultDirector}
+        disabled={disabled}
+      />
     </GenericForm>
   );
 };
