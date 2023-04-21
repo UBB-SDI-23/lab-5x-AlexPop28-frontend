@@ -1,106 +1,16 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
-  Autocomplete,
   Card,
   CardContent,
   Container,
   IconButton,
-  InputAdornment,
-  Rating,
-  TextField,
   Typography,
 } from "@mui/material";
-import { debounce } from "lodash";
-import React, { FC, SetStateAction, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GenericForm } from "../../components/GenericForm";
+import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Director } from "../../models/director";
 import { Movie } from "../../models/movie";
-
-interface DirectorInputProps {
-  setMovie: React.Dispatch<SetStateAction<Movie>>;
-  defaultDirector?: Director;
-}
-
-const DirectorInput: FC<DirectorInputProps> = ({
-  setMovie,
-  defaultDirector = undefined,
-}) => {
-  const [director, setDirector] = useState<Director | null>(
-    defaultDirector ?? null
-  );
-  const [directors, setDirectors] = useState<Director[]>();
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [directorLoading, setDirectorLoading] = useState(true);
-  const axios = useAxios();
-
-  const fetchDirectors = async (name: string) => {
-    setDirectorLoading(true);
-    const BACKEND_DIRECTORS_URL = `/directors?page=${page}&page_size=${pageSize}&name=${name}`;
-    const { data } = await axios.get(BACKEND_DIRECTORS_URL);
-    let fetchedDirectors = data.results;
-    if (director) {
-      if (!fetchedDirectors.find((d: Director) => d.id === director.id)) {
-        fetchedDirectors.push(director);
-      }
-    }
-    setDirectors(fetchedDirectors);
-    setDirectorLoading(false);
-  };
-
-  const debouncedFetchSuggestions = useMemo(
-    () => debounce(fetchDirectors, 500),
-    [page, pageSize, director]
-  );
-
-  useEffect(() => {
-    fetchDirectors("");
-    return () => {
-      debouncedFetchSuggestions.cancel();
-    };
-  }, []);
-
-  const handleDirectorChange = (
-    _: React.ChangeEvent<{}>,
-    newDirector: Director | null
-  ) => {
-    if (newDirector !== null) {
-      setDirector(newDirector);
-      setMovie((movie: Movie) => {
-        return { ...movie, director: newDirector.id };
-      });
-    }
-  };
-
-  const handleDirectorInputChange = (
-    _: React.ChangeEvent<{}>,
-    value: string
-  ) => {
-    debouncedFetchSuggestions(value);
-  };
-
-  return (
-    <Autocomplete
-      value={director}
-      loading={directorLoading}
-      options={directors ?? []}
-      renderInput={(params) => <TextField {...params} label="Director" />}
-      getOptionLabel={(option) => option.name}
-      renderOption={(props, option) => {
-        return (
-          <li {...props} key={option.id}>
-            {option.name}
-          </li>
-        );
-      }}
-      onInputChange={handleDirectorInputChange}
-      onChange={handleDirectorChange}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
-    />
-  );
-};
 
 export const MovieCreate = () => {
   const [movie, setMovie] = useState<Movie>({
@@ -113,60 +23,14 @@ export const MovieCreate = () => {
 
   const navigate = useNavigate();
   const axios = useAxios();
-
-  const editForm = (
-    <GenericForm
-      onSubmit={async () => {
-        const BACKEND_URL = `/movies/`;
-        try {
-          const { data, status } = await axios.post(BACKEND_URL, movie);
-          navigate(`/movies/${data.id}/details`);
-        } catch (error) {
-          console.log(error);
-        }
-      }}
-    >
-      <TextField
-        label="Name"
-        value={movie.name}
-        onChange={(event) => setMovie({ ...movie, name: event.target.value })}
-        fullWidth
-      />
-
-      <TextField
-        label="Release Date"
-        value={movie.release_date}
-        onChange={(event) =>
-          setMovie({ ...movie, release_date: event.target.value })
-        }
-      />
-
-      <TextField
-        label="Length"
-        value={movie.length_in_minutes}
-        onChange={(event) =>
-          setMovie({
-            ...movie,
-            length_in_minutes: Number(event.target.value),
-          })
-        }
-        InputProps={{
-          endAdornment: <InputAdornment position="end">minutes</InputAdornment>,
-        }}
-      />
-
-      <Rating
-        name="rating"
-        value={movie.rating}
-        precision={0.1}
-        max={10}
-        onChange={(_, newRating) => {
-          if (newRating !== null) setMovie({ ...movie, rating: newRating });
-        }}
-      />
-      <DirectorInput setMovie={setMovie} />
-    </GenericForm>
-  );
+  const onSubmit = async () => {
+    try {
+      const { data } = await axios.post(`/movies`, movie);
+      navigate(`/movies/${data.id}/details`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Container>
@@ -176,7 +40,7 @@ export const MovieCreate = () => {
           <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
             <ArrowBackIcon />
           </IconButton>
-          {editForm}
+          <MovieForm movie={movie} setMovie={setMovie} onSubmit={onSubmit} />
         </CardContent>
       </Card>
     </Container>
