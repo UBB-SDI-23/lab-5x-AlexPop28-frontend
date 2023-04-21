@@ -1,15 +1,18 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import LockIcon from "@mui/icons-material/Lock";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 import {
-  Button,
   Card,
   CardContent,
   CircularProgress,
   Container,
   IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { DeleteButton } from "../../components/DeleteButton";
 import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director } from "../../models/director";
@@ -26,9 +29,10 @@ export const MovieEdit = () => {
     director: 0,
   });
   const [director, setDirector] = useState<Director>();
+  const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const axios = useAxios();
-  const BASE_URL = `/movies/${movieId}`;
+  const BASE_URL = `/movies/${movieId}/`;
 
   const fetchMovie = async () => {
     setLoading(true);
@@ -42,25 +46,48 @@ export const MovieEdit = () => {
     fetchMovie();
   }, []);
 
-  const onSubmit = async () => {
+  const onSaveChanges = async () => {
     try {
       const { data } = await axios.put(BASE_URL, movie);
-      navigate(`${BASE_URL}/details`);
+      setDisabled(true);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const controlButtons = (
+    <>
+      {disabled && (
+        <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
+          <Tooltip title="Make changes" arrow>
+            <LockIcon />
+          </Tooltip>
+        </IconButton>
+      )}
+      {!disabled && (
+        <>
+          <IconButton sx={{ mr: 3 }} onClick={onSaveChanges}>
+            <LockOpenIcon />
+          </IconButton>
+          <DeleteButton
+            onDelete={async () => {
+              await axios.delete(`/movies/${movieId}/`);
+              navigate("/movies");
+            }}
+          />
+        </>
+      )}
+    </>
+  );
+
   return (
     <Container>
       <Card>
         <CardContent>
-          <Typography variant="h1">Edit Movie</Typography>
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`${BASE_URL}/details`}
-          >
+          <Typography variant="h1">
+            {disabled ? "About the" : "Edit"} movie
+          </Typography>
+          <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
             <ArrowBackIcon />
           </IconButton>
           {loading && <CircularProgress />}
@@ -69,10 +96,9 @@ export const MovieEdit = () => {
               movie={movie}
               setMovie={setMovie}
               defaultDirector={director}
+              disabled={disabled}
             >
-              <Button variant="contained" color="primary" onClick={onSubmit}>
-                Save
-              </Button>
+              {controlButtons}
             </MovieForm>
           )}
         </CardContent>
