@@ -2,16 +2,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import {
-  Card,
-  CardContent,
   CircularProgress,
-  Container,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { CardContainer } from "../../components/CardContainer";
 import { DeleteButton } from "../../components/DeleteButton";
 import { DirectorForm } from "../../components/custom/DirectorForm";
 import useAxios from "../../lib/hooks/useAxios";
@@ -80,29 +78,25 @@ export const DirectorEdit = () => {
   );
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <Typography variant="h1">
-            {disabled ? "About the" : "Edit"} director
-          </Typography>
-          {disabled && (
-            <IconButton component={Link} sx={{ mr: 3 }} to={`/directors`}>
-              <ArrowBackIcon />
-            </IconButton>
-          )}
-          {loading && <CircularProgress />}
-          {!loading && director && (
-            <DirectorForm
-              director={director}
-              setDirector={setDirector}
-              disabled={disabled}
-            >
-              {controlButtons}
-            </DirectorForm>
-          )}
-        </CardContent>
-      </Card>
-    </Container>
+    <CardContainer title={`${disabled ? "About the" : "Edit"} director`}>
+      <Typography variant="h1">
+        {disabled ? "About the" : "Edit"} director
+      </Typography>
+      {disabled && (
+        <IconButton component={Link} sx={{ mr: 3 }} to={`/directors`}>
+          <ArrowBackIcon />
+        </IconButton>
+      )}
+      {loading && <CircularProgress />}
+      {!loading && director && (
+        <DirectorForm
+          director={director}
+          setDirector={setDirector}
+          disabled={disabled}
+        >
+          {controlButtons}
+        </DirectorForm>
+      )}
+    </CardContainer>
   );
 };

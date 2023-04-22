@@ -1,17 +1,10 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import {
-  Card,
-  CardContent,
-  CircularProgress,
-  Container,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { CardContainer } from "../../components/CardContainer";
 import { DeleteButton } from "../../components/DeleteButton";
 import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
@@ -83,30 +76,23 @@ export const MovieEdit = () => {
   );
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <Typography variant="h1">
-            {disabled ? "About the" : "Edit"} movie
-          </Typography>
-          {disabled && (
-            <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
-              <ArrowBackIcon />
-            </IconButton>
-          )}
-          {loading && <CircularProgress />}
-          {!loading && movie && (
-            <MovieForm
-              movie={movie}
-              setMovie={setMovie}
-              defaultDirector={director}
-              disabled={disabled}
-            >
-              {controlButtons}
-            </MovieForm>
-          )}
-        </CardContent>
-      </Card>
-    </Container>
+    <CardContainer title={`${disabled ? "About the" : "Edit"} movie`}>
+      {disabled && (
+        <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
+          <ArrowBackIcon />
+        </IconButton>
+      )}
+      {loading && <CircularProgress />}
+      {!loading && movie && (
+        <MovieForm
+          movie={movie}
+          setMovie={setMovie}
+          defaultDirector={director}
+          disabled={disabled}
+        >
+          {controlButtons}
+        </MovieForm>
+      )}
+    </CardContainer>
   );
 };

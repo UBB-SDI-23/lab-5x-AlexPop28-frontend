@@ -2,16 +2,14 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import {
-  Card,
-  CardContent,
   CircularProgress,
-  Container,
   IconButton,
   Tooltip,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { CardContainer } from "../../components/CardContainer";
 import { DeleteButton } from "../../components/DeleteButton";
 import { ActorForm } from "../../components/custom/ActorForm";
 import useAxios from "../../lib/hooks/useAxios";
@@ -80,25 +78,19 @@ export const ActorEdit = () => {
   );
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <Typography variant="h1">
-            {disabled ? "About the" : "Edit"} actor
-          </Typography>
-          {disabled && (
-            <IconButton component={Link} sx={{ mr: 3 }} to={`/actors`}>
-              <ArrowBackIcon />
-            </IconButton>
-          )}
-          {loading && <CircularProgress />}
-          {!loading && actor && (
-            <ActorForm actor={actor} setActor={setActor} disabled={disabled}>
-              {controlButtons}
-            </ActorForm>
-          )}
-        </CardContent>
-      </Card>
-    </Container>
+    <CardContainer title={`${disabled ? "About the" : "Edit"} actor`}>
+      <Typography variant="h1"></Typography>
+      {disabled && (
+        <IconButton component={Link} sx={{ mr: 3 }} to={`/actors`}>
+          <ArrowBackIcon />
+        </IconButton>
+      )}
+      {loading && <CircularProgress />}
+      {!loading && actor && (
+        <ActorForm actor={actor} setActor={setActor} disabled={disabled}>
+          {controlButtons}
+        </ActorForm>
+      )}
+    </CardContainer>
   );
 };
