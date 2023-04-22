@@ -3,10 +3,10 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { Button, CircularProgress, IconButton } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AllObjects } from "../../components/AllObjects";
-import useAxios from "../../lib/hooks/useAxios";
-import { ActorMovie } from "../../models/actormovie";
-import { Movie } from "../../models/movie";
+import { AllObjects } from "../../../components/AllObjects";
+import useAxios from "../../../lib/hooks/useAxios";
+import { ActorMovie } from "../../../models/ActorMovie";
+import { Movie } from "../../../models/movie";
 
 const createMovieActorsUrl =
   (movieId?: string) => (page: number, pageSize: number) => {

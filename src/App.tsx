@@ -10,10 +10,10 @@ import { AllActors } from "./pages/actors/AllActors";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
 import { DirectorEdit } from "./pages/directors/DirectorEdit";
-import { AllMovieActors } from "./pages/movies/AllMovieActors";
 import { AllMovies } from "./pages/movies/AllMovies";
 import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
+import { AllMovieActors } from "./pages/movies/actors/AllMovieActors";
 
 export default () => {
   return (
