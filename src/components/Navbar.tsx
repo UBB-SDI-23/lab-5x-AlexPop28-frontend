@@ -53,6 +53,16 @@ export const Navbar = () => {
           >
             Actors
           </Button>
+          <Button
+            variant={path.startsWith("/directors") ? "outlined" : "text"}
+            to="/directors"
+            component={Link}
+            color="inherit"
+            sx={{ mr: 5 }}
+            startIcon={<PersonIcon />}
+          >
+            Directors
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
