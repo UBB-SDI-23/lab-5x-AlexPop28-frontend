@@ -1,7 +1,8 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import { CircularProgress, IconButton, Tooltip } from "@mui/material";
+import PeopleIcon from "@mui/icons-material/People";
+import { Button, CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
@@ -78,9 +79,21 @@ export const MovieEdit = () => {
   return (
     <CardContainer title={`${disabled ? "About the" : "Edit"} movie`}>
       {disabled && (
-        <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
-          <ArrowBackIcon />
-        </IconButton>
+        <>
+          <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
+            <ArrowBackIcon />
+          </IconButton>
+          <Button
+            variant={"text"}
+            to={`/movies/${movieId}/actors/`}
+            component={Link}
+            color="inherit"
+            sx={{ mr: 5 }}
+            startIcon={<PeopleIcon />}
+          >
+            Show cast
+          </Button>
+        </>
       )}
       {loading && <CircularProgress />}
       {!loading && movie && (

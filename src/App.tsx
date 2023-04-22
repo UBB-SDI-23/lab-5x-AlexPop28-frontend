@@ -10,6 +10,7 @@ import { AllActors } from "./pages/actors/AllActors";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
 import { DirectorEdit } from "./pages/directors/DirectorEdit";
+import { AllMovieActors } from "./pages/movies/AllMovieActors";
 import { AllMovies } from "./pages/movies/AllMovies";
 import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
@@ -24,15 +25,13 @@ export default () => {
           <Route path="/movies" element={<AllMovies />} />
           <Route path="/movies/add" element={<MovieCreate />} />
           <Route path="/movies/:movieId" element={<MovieEdit />}></Route>
+          <Route path="/movies/:movieId/actors" element={<AllMovieActors />} />
           <Route path="/actors" element={<AllActors />} />
           <Route path="/actors/add" element={<ActorCreate />} />
           <Route path="/actors/:actorId" element={<ActorEdit />}></Route>
           <Route path="/directors" element={<AllDirectors />} />
           <Route path="/directors/add" element={<DirectorCreate />} />
-          <Route
-            path="/directors/:directorId"
-            element={<DirectorEdit />}
-          ></Route>
+          <Route path="/directors/:directorId" element={<DirectorEdit />} />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>
