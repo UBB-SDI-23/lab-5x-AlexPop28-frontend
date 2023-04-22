@@ -7,5 +7,5 @@ export interface ActorMovie {
   character_name: string;
   actor: number;
   movie: number | Movie;
-  actor_name: string;
+  actor_name?: string;
 }
