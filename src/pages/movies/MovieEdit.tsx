@@ -89,9 +89,11 @@ export const MovieEdit = () => {
           <Typography variant="h1">
             {disabled ? "About the" : "Edit"} movie
           </Typography>
-          <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
-            <ArrowBackIcon />
-          </IconButton>
+          {disabled && (
+            <IconButton component={Link} sx={{ mr: 3 }} to={`/movies`}>
+              <ArrowBackIcon />
+            </IconButton>
+          )}
           {loading && <CircularProgress />}
           {!loading && movie && (
             <MovieForm
