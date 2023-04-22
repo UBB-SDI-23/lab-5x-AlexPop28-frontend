@@ -1,17 +1,9 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  IconButton,
-  InputAdornment,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { GridLayout } from "../../components/GridLayout";
+import { CardContainer } from "../../components/CardContainer";
+import { ActorForm } from "../../components/custom/ActorForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Actor } from "../../models/actor";
 
@@ -29,73 +21,23 @@ export const ActorCreate = () => {
 
   const onSubmit = async () => {
     try {
-      const { data, status } = await axios.post(`/actors/`, actor);
+      const { data } = await axios.post(`/actors/`, actor);
       navigate(`/actors/${data.id}/details`);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const editForm = (
-    <GridLayout>
-      <TextField
-        label="Name"
-        value={actor.name}
-        onChange={(event) => setActor({ ...actor, name: event.target.value })}
-        fullWidth
-      />
-      <TextField
-        label="Alternative name"
-        value={actor.alternative_name}
-        onChange={(event) =>
-          setActor({ ...actor, alternative_name: event.target.value })
-        }
-        fullWidth
-      />
-      <TextField
-        label="Date of birth"
-        value={actor.date_of_birth}
-        onChange={(event) =>
-          setActor({ ...actor, date_of_birth: event.target.value })
-        }
-      />
-      <TextField
-        label="Birthplace"
-        value={actor.birthplace}
-        onChange={(event) =>
-          setActor({ ...actor, birthplace: event.target.value })
-        }
-      />
-      <TextField
-        label="Height"
-        value={actor.height_in_cm}
-        onChange={(event) =>
-          setActor({
-            ...actor,
-            height_in_cm: Number(event.target.value),
-          })
-        }
-        InputProps={{
-          endAdornment: <InputAdornment position="end">cm</InputAdornment>,
-        }}
-      />
-      <Button variant="contained" color="primary" onClick={onSubmit}>
-        Add
-      </Button>
-    </GridLayout>
-  );
-
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <Typography variant="h1">Create actor</Typography>
-          <IconButton component={Link} sx={{ mr: 3 }} to={"/actors"}>
-            <ArrowBackIcon />
-          </IconButton>
-          {editForm}
-        </CardContent>
-      </Card>
-    </Container>
+    <CardContainer title="Create Actor">
+      <IconButton component={Link} sx={{ mr: 3 }} to={"/actors"}>
+        <ArrowBackIcon />
+      </IconButton>
+      <ActorForm actor={actor} setActor={setActor}>
+        <Button variant="contained" color="primary" onClick={onSubmit}>
+          Add
+        </Button>
+      </ActorForm>
+    </CardContainer>
   );
 };
