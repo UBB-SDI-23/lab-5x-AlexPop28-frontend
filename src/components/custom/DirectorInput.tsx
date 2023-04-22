@@ -58,7 +58,7 @@ export const DirectorInput: FC<DirectorInputProps> = ({
     if (newDirector !== null) {
       setDirector(newDirector);
       setMovie((movie: Movie) => {
-        return { ...movie, director: newDirector.id };
+        return { ...movie, director: newDirector.id } as Movie;
       });
     }
   };
