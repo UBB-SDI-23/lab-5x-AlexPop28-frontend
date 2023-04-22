@@ -1,14 +1,8 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {
-  Button,
-  Card,
-  CardContent,
-  Container,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { CardContainer } from "../../components/CardContainer";
 import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Movie } from "../../models/movie";
@@ -34,20 +28,15 @@ export const MovieCreate = () => {
   };
 
   return (
-    <Container>
-      <Card>
-        <CardContent>
-          <Typography variant="h1">Create Movie</Typography>
-          <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
-            <ArrowBackIcon />
-          </IconButton>
-          <MovieForm movie={movie} setMovie={setMovie}>
-            <Button variant="contained" color="primary" onClick={onSubmit}>
-              Add
-            </Button>
-          </MovieForm>
-        </CardContent>
-      </Card>
-    </Container>
+    <CardContainer title="Create Movie">
+      <IconButton component={Link} sx={{ mr: 3 }} to={"/movies"}>
+        <ArrowBackIcon />
+      </IconButton>
+      <MovieForm movie={movie} setMovie={setMovie}>
+        <Button variant="contained" color="primary" onClick={onSubmit}>
+          Add
+        </Button>
+      </MovieForm>
+    </CardContainer>
   );
 };
