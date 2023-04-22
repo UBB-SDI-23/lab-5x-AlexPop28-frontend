@@ -51,7 +51,11 @@ export const AddMovieActor = () => {
       {loading && <CircularProgress />}
       {!loading && movie && (
         <CardContainer title={`Add actor to ${movie.name}`}>
-          <IconButton component={Link} sx={{ mr: 3 }} to={"/actors"}>
+          <IconButton
+            component={Link}
+            sx={{ mr: 3 }}
+            to={`/movies/${movieId}/actors`}
+          >
             <ArrowBackIcon />
           </IconButton>
           <ActorMovieForm actorMovie={actorMovie} setActorMovie={setActorMovie}>
