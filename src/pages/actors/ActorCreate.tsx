@@ -22,7 +22,7 @@ export const ActorCreate = () => {
   const onSubmit = async () => {
     try {
       const { data } = await axios.post(`/actors/`, actor);
-      navigate(`/actors/${data.id}/details`);
+      navigate(`/actors/${data.id}/`);
     } catch (error) {
       console.log(error);
     }

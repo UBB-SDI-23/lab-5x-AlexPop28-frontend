@@ -21,7 +21,7 @@ export const MovieCreate = () => {
   const onSubmit = async () => {
     try {
       const { data } = await axios.post(`/movies`, movie);
-      navigate(`/movies/${data.id}/details`);
+      navigate(`/movies/${data.id}/`);
     } catch (error) {
       console.log(error);
     }
