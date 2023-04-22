@@ -9,7 +9,6 @@ import { ActorEdit } from "./pages/actors/ActorEdit";
 import { AllActors } from "./pages/actors/AllActors";
 import { AllMovies } from "./pages/movies/AllMovies";
 import { MovieCreate } from "./pages/movies/MovieCreate";
-import { MovieDetails } from "./pages/movies/MovieDetails";
 import { MovieEdit } from "./pages/movies/MovieEdit";
 
 export default () => {
@@ -21,11 +20,10 @@ export default () => {
           <Route path="/" element={<AppHome />} />
           <Route path="/movies" element={<AllMovies />} />
           <Route path="/movies/add" element={<MovieCreate />} />
-          <Route path="/movies/:movieId/details" element={<MovieDetails />} />
-          <Route path="/movies/:movieId/edit" element={<MovieEdit />}></Route>
+          <Route path="/movies/:movieId" element={<MovieEdit />}></Route>
           <Route path="/actors" element={<AllActors />} />
           <Route path="/actors/add" element={<ActorCreate />} />
-          <Route path="/actors/:actorId/edit" element={<ActorEdit />}></Route>
+          <Route path="/actors/:actorId" element={<ActorEdit />}></Route>
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>

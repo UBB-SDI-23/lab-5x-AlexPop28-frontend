@@ -1,7 +1,5 @@
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import { Button, IconButton, Tooltip } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
 import { Actor } from "../../models/actor";
@@ -24,7 +22,7 @@ const getColumns = (page: number, pageSize: number) => {
     {
       headElement: <>Name</>,
       bodyElement: (actor: Actor, _: any) => (
-        <Link to={`/actors/${actor.id}/details`} title="View actor details">
+        <Link to={`/actors/${actor.id}/`} title="View actor details">
           {actor.name +
             (actor.alternative_name ? ` (${actor.alternative_name})` : "")}
         </Link>
@@ -40,33 +38,9 @@ const getColumns = (page: number, pageSize: number) => {
     },
     {
       bodyElement: (actor: Actor, _: any) => (
-        <>
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/actors/${actor.id}/details`}
-          >
-            <Tooltip title="View actor details" arrow>
-              <ReadMoreIcon color="primary" />
-            </Tooltip>
-          </IconButton>
-
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/actors/${actor.id}/edit`}
-          >
-            <EditIcon />
-          </IconButton>
-
-          <IconButton
-            component={Link}
-            sx={{ mr: 3 }}
-            to={`/actors/${actor.id}/delete`}
-          >
-            <DeleteForeverIcon sx={{ color: "red" }} />
-          </IconButton>
-        </>
+        <IconButton component={Link} sx={{ mr: 3 }} to={`/actors/${actor.id}/`}>
+          <EditIcon />
+        </IconButton>
       ),
     },
   ];

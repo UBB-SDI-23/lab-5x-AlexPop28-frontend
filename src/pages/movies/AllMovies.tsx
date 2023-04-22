@@ -1,10 +1,8 @@
 import EditIcon from "@mui/icons-material/Edit";
-import ReadMoreIcon from "@mui/icons-material/ReadMore";
-import { Button, IconButton, TextField, Tooltip } from "@mui/material";
+import { Button, IconButton, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
-import { DeleteButton } from "../../components/DeleteButton";
 import useAxios from "../../lib/hooks/useAxios";
 import { Movie } from "../../models/movie";
 
@@ -42,7 +40,7 @@ export const AllMovies = () => {
       {
         headElement: <>Name</>,
         bodyElement: (movie: Movie, _: any) => (
-          <Link to={`/movies/${movie.id}/details`} title="View movie details">
+          <Link to={`/movies/${movie.id}/`} title="View movie details">
             {movie.name}
           </Link>
         ),
@@ -67,31 +65,13 @@ export const AllMovies = () => {
       },
       {
         bodyElement: (movie: Movie, _: any) => (
-          <>
-            <IconButton
-              component={Link}
-              sx={{ mr: 3 }}
-              to={`/movies/${movie.id}/details`}
-            >
-              <Tooltip title="View movie details" arrow>
-                <ReadMoreIcon color="primary" />
-              </Tooltip>
-            </IconButton>
-
-            <IconButton
-              component={Link}
-              sx={{ mr: 3 }}
-              to={`/movies/${movie.id}/edit`}
-            >
-              <EditIcon />
-            </IconButton>
-
-            <DeleteButton
-              onDelete={async () => {
-                await axios.delete(`/movies/${movie.id}/`);
-              }}
-            />
-          </>
+          <IconButton
+            component={Link}
+            sx={{ mr: 3 }}
+            to={`/movies/${movie.id}/`}
+          >
+            <EditIcon />
+          </IconButton>
         ),
       },
     ];
