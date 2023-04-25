@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
 import { DirectorForm } from "../../components/custom/DirectorForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Director } from "../../models/director";
+import { Director, isDirectorValid } from "../../models/director";
 
 export const DirectorCreate = () => {
   const [director, setDirector] = useState<Director>({
@@ -34,7 +34,12 @@ export const DirectorCreate = () => {
         <ArrowBackIcon />
       </IconButton>
       <DirectorForm director={director} setDirector={setDirector}>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!isDirectorValid(director)}
+          onClick={onSubmit}
+        >
           Add
         </Button>
       </DirectorForm>

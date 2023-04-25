@@ -1,19 +1,14 @@
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import LockIcon from "@mui/icons-material/Lock";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import {
-  CircularProgress,
-  IconButton,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { CircularProgress, IconButton, Tooltip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
 import { DeleteButton } from "../../components/DeleteButton";
 import { DirectorForm } from "../../components/custom/DirectorForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Director } from "../../models/director";
+import { Director, isDirectorValid } from "../../models/director";
 
 export const DirectorEdit = () => {
   const { directorId } = useParams();
@@ -61,7 +56,11 @@ export const DirectorEdit = () => {
       )}
       {!disabled && (
         <>
-          <IconButton sx={{ mr: 3 }} onClick={onSaveChanges}>
+          <IconButton
+            sx={{ mr: 3 }}
+            disabled={!isDirectorValid(director)}
+            onClick={onSaveChanges}
+          >
             <Tooltip title="Save changes" arrow>
               <LockOpenIcon />
             </Tooltip>
@@ -79,9 +78,6 @@ export const DirectorEdit = () => {
 
   return (
     <CardContainer title={`${disabled ? "About the" : "Edit"} director`}>
-      <Typography variant="h1">
-        {disabled ? "About the" : "Edit"} director
-      </Typography>
       {disabled && (
         <IconButton component={Link} sx={{ mr: 3 }} to={`/directors`}>
           <ArrowBackIcon />

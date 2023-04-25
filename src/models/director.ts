@@ -10,3 +10,10 @@ export interface Director {
   movie_count?: number;
   movies?: Movie[];
 }
+
+export const isDirectorValid = (director: Director) => {
+  if (director.name === "") return false;
+  if (new Date(director.date_of_birth) > new Date()) return false;
+  if (director.height_in_cm <= 0) return false;
+  return true;
+};
