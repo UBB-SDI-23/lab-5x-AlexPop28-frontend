@@ -13,7 +13,7 @@ import { CardContainer } from "../../components/CardContainer";
 import { DeleteButton } from "../../components/DeleteButton";
 import { ActorForm } from "../../components/custom/ActorForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Actor } from "../../models/actor";
+import { Actor, isActorValid } from "../../models/actor";
 
 export const ActorEdit = () => {
   const { actorId } = useParams();
@@ -45,7 +45,7 @@ export const ActorEdit = () => {
     try {
       const { data } = await axios.put(BASE_URL, actor);
       setDisabled(true);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
     }
   };
@@ -61,7 +61,11 @@ export const ActorEdit = () => {
       )}
       {!disabled && (
         <>
-          <IconButton sx={{ mr: 3 }} onClick={onSaveChanges}>
+          <IconButton
+            sx={{ mr: 3 }}
+            disabled={!isActorValid(actor)}
+            onClick={onSaveChanges}
+          >
             <Tooltip title="Save changes" arrow>
               <LockOpenIcon />
             </Tooltip>

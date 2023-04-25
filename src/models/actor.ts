@@ -10,3 +10,10 @@ export interface Actor {
   movie_count?: number;
   movies?: Movie[];
 }
+
+export const isActorValid = (actor: Actor) => {
+  if (actor.name === "") return false;
+  if (new Date(actor.date_of_birth) > new Date()) return false;
+  if (actor.height_in_cm <= 0) return false;
+  return true;
+};

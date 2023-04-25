@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
 import { ActorForm } from "../../components/custom/ActorForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Actor } from "../../models/actor";
+import { Actor, isActorValid } from "../../models/actor";
 
 export const ActorCreate = () => {
   const [actor, setActor] = useState<Actor>({
@@ -34,7 +34,12 @@ export const ActorCreate = () => {
         <ArrowBackIcon />
       </IconButton>
       <ActorForm actor={actor} setActor={setActor}>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!isActorValid(actor)}
+          onClick={onSubmit}
+        >
           Add
         </Button>
       </ActorForm>
