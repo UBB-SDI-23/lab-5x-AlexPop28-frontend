@@ -7,5 +7,6 @@ export interface Actor {
   date_of_birth: string;
   birthplace: string;
   height_in_cm: number;
+  movie_count?: number;
   movies?: Movie[];
 }

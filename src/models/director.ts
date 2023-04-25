@@ -7,5 +7,6 @@ export interface Director {
   date_of_birth: string;
   birthplace: string;
   height_in_cm: number;
+  movie_count?: number;
   movies?: Movie[];
 }

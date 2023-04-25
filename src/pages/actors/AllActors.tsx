@@ -37,6 +37,11 @@ const getColumns = (page: number, pageSize: number) => {
       sortKey: "date_of_birth",
     },
     {
+      headElement: <>Movie count</>,
+      bodyElement: (actor: Actor, _: any) => <>{actor.movie_count}</>,
+      sortKey: "movie_count",
+    },
+    {
       bodyElement: (actor: Actor, _: any) => (
         <IconButton component={Link} sx={{ mr: 3 }} to={`/actors/${actor.id}/`}>
           <EditIcon />
