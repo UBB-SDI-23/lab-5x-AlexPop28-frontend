@@ -65,8 +65,8 @@ export const AllMovies = () => {
       },
       {
         headElement: <>Number of actors</>,
-        bodyElement: (movie: Movie, _: any) => <>{movie.number_of_actors}</>,
-        sortKey: "number_of_actors",
+        bodyElement: (movie: Movie, _: any) => <>{movie.actor_count}</>,
+        sortKey: "actor_count",
       },
       {
         bodyElement: (movie: Movie, _: any) => (

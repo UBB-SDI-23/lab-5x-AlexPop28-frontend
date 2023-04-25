@@ -7,6 +7,6 @@ export interface Movie {
   release_date: string;
   length_in_minutes: number;
   director: number | Director;
-  number_of_actors?: number;
+  actor_count?: number;
   actors?: number[];
 }
