@@ -10,7 +10,7 @@ import { DeleteButton } from "../../components/DeleteButton";
 import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director } from "../../models/director";
-import { Movie } from "../../models/movie";
+import { Movie, isMovieValid } from "../../models/movie";
 
 export const MovieEdit = () => {
   const { movieId } = useParams();
@@ -60,7 +60,11 @@ export const MovieEdit = () => {
       )}
       {!disabled && (
         <>
-          <IconButton sx={{ mr: 3 }} onClick={onSaveChanges}>
+          <IconButton
+            sx={{ mr: 3 }}
+            disabled={!isMovieValid(movie)}
+            onClick={onSaveChanges}
+          >
             <Tooltip title="Save changes" arrow>
               <LockOpenIcon />
             </Tooltip>

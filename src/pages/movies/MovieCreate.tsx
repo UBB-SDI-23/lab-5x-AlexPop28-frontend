@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
 import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
-import { Movie } from "../../models/movie";
+import { Movie, isMovieValid } from "../../models/movie";
 
 export const MovieCreate = () => {
   const [movie, setMovie] = useState<Movie>({
@@ -33,7 +33,12 @@ export const MovieCreate = () => {
         <ArrowBackIcon />
       </IconButton>
       <MovieForm movie={movie} setMovie={setMovie}>
-        <Button variant="contained" color="primary" onClick={onSubmit}>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!isMovieValid(movie)}
+          onClick={onSubmit}
+        >
           Add
         </Button>
       </MovieForm>

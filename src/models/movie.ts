@@ -10,3 +10,10 @@ export interface Movie {
   actor_count?: number;
   actors?: number[];
 }
+
+export const isMovieValid = (movie: Movie) => {
+  if (movie.name === "") return false;
+  if (new Date(movie.release_date) > new Date()) return false;
+  if (movie.length_in_minutes <= 0) return false;
+  return true;
+};
