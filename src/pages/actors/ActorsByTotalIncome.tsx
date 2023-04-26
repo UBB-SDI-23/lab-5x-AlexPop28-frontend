@@ -1,16 +1,13 @@
-import AnalyticsIcon from "@mui/icons-material/Analytics";
 import EditIcon from "@mui/icons-material/Edit";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
 import { Actor } from "../../models/actor";
-
 const createActorUrl = (page: number, pageSize: number) => {
   const searchParams = new URLSearchParams();
   searchParams.append("page", page.toString());
   searchParams.append("page_size", pageSize.toString());
-  return `/actors?${searchParams.toString()}`;
+  return `/actors/by_total_income?${searchParams.toString()}`;
 };
 
 const getColumns = (page: number, pageSize: number) => {
@@ -39,9 +36,9 @@ const getColumns = (page: number, pageSize: number) => {
       sortKey: "date_of_birth",
     },
     {
-      headElement: <>Movie count</>,
-      bodyElement: (actor: Actor, _: any) => <>{actor.movie_count}</>,
-      sortKey: "movie_count",
+      headElement: <>Total income</>,
+      bodyElement: (actor: Actor, _: any) => <>{actor.total_income}</>,
+      sortKey: "total_income",
     },
     {
       bodyElement: (actor: Actor, _: any) => (
@@ -53,28 +50,12 @@ const getColumns = (page: number, pageSize: number) => {
   ];
 };
 
-export const AllActors = () => {
+export const ActorsByTotalIncome = () => {
   return (
     <AllObjects
-      title="All actors"
+      title="Actors ordered by their total income"
       createUrl={createActorUrl}
       getColumns={getColumns}
-    >
-      <Button
-        to={`/actors/add`}
-        component={Link}
-        sx={{ mr: 5 }}
-        startIcon={<PersonAddIcon />}
-      >
-        Add new actor
-      </Button>
-      <Button
-        to="/actors/by_total_income"
-        component={Link}
-        startIcon={<AnalyticsIcon />}
-      >
-        Sort by total income
-      </Button>
-    </AllObjects>
+    />
   );
 };

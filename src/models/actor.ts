@@ -9,6 +9,7 @@ export interface Actor {
   height_in_cm: number;
   movie_count?: number;
   movies?: Movie[];
+  total_income?: number;
 }
 
 export const isActorValid = (actor: Actor) => {
