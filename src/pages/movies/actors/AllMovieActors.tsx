@@ -35,7 +35,7 @@ const getMovieActorsColumns =
       {
         headElement: <>Actor</>,
         bodyElement: (actorMovie: ActorMovie, _: any) => (
-          <Link to={`/actors/${actorMovie.id}`} title="View actor details">
+          <Link to={`/actors/${actorMovie.actor}`} title="View actor details">
             {actorMovie.actor_name}
           </Link>
         ),
