@@ -10,6 +10,7 @@ import { AllActors } from "./pages/actors/AllActors";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
 import { DirectorEdit } from "./pages/directors/DirectorEdit";
+import { DirectorsByLastMovie } from "./pages/directors/DirectorsByLastMovie";
 import { AllMovies } from "./pages/movies/AllMovies";
 import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
@@ -37,6 +38,10 @@ export default () => {
           <Route path="/directors" element={<AllDirectors />} />
           <Route path="/directors/add" element={<DirectorCreate />} />
           <Route path="/directors/:directorId" element={<DirectorEdit />} />
+          <Route
+            path="/directors/by_last_release_date"
+            element={<DirectorsByLastMovie />}
+          />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>

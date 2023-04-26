@@ -10,7 +10,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
-
 export const Navbar = () => {
   const location = useLocation();
   const path = location.pathname;

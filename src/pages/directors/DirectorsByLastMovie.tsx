@@ -1,7 +1,5 @@
-import AnalyticsIcon from "@mui/icons-material/Analytics";
 import EditIcon from "@mui/icons-material/Edit";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import { Button, IconButton } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
 import { Director } from "../../models/director";
@@ -10,7 +8,7 @@ const createDirectorUrl = (page: number, pageSize: number) => {
   const searchParams = new URLSearchParams();
   searchParams.append("page", page.toString());
   searchParams.append("page_size", pageSize.toString());
-  return `/directors?${searchParams.toString()}`;
+  return `/directors/by_last_release_date?${searchParams.toString()}`;
 };
 
 const getColumns = (page: number, pageSize: number) => {
@@ -41,9 +39,11 @@ const getColumns = (page: number, pageSize: number) => {
       sortKey: "date_of_birth",
     },
     {
-      headElement: <>Movie count</>,
-      bodyElement: (director: Director, _: any) => <>{director.movie_count}</>,
-      sortKey: "movie_count",
+      headElement: <>Last release</>,
+      bodyElement: (director: Director, _: any) => (
+        <>{director.last_movie_release_date}</>
+      ),
+      sortKey: "last_movie_release_date",
     },
     {
       bodyElement: (director: Director, _: any) => (
@@ -59,28 +59,12 @@ const getColumns = (page: number, pageSize: number) => {
   ];
 };
 
-export const AllDirectors = () => {
+export const DirectorsByLastMovie = () => {
   return (
     <AllObjects
-      title="All directors"
+      title="Directors sorted by latest movie"
       createUrl={createDirectorUrl}
       getColumns={getColumns}
-    >
-      <Button
-        to={`/directors/add`}
-        component={Link}
-        sx={{ mr: 5 }}
-        startIcon={<PersonAddIcon />}
-      >
-        Add new director
-      </Button>
-      <Button
-        to="/directors/by_last_release_date"
-        component={Link}
-        startIcon={<AnalyticsIcon />}
-      >
-        Sort by latest movie
-      </Button>
-    </AllObjects>
+    />
   );
 };

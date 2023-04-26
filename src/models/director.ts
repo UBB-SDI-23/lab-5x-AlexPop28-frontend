@@ -9,6 +9,7 @@ export interface Director {
   height_in_cm: number;
   movie_count?: number;
   movies?: Movie[];
+  last_movie_release_date?: string;
 }
 
 export const isDirectorValid = (director: Director) => {
