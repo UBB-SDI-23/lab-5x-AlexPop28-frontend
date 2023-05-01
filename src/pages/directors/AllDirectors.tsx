@@ -47,7 +47,11 @@ const getColumns = (page: number, pageSize: number) => {
     },
     {
       headElement: <>Added by</>,
-      bodyElement: (director: Director, _: any) => <>{director.username}</>,
+      bodyElement: (director: Director, _: any) => (
+        <Link to={`/users/${director.username}/`} title="View user details">
+          {director.username}
+        </Link>
+      ),
       sortKey: "username",
     },
     {

@@ -58,7 +58,9 @@ const getMovieActorsColumns =
       {
         headElement: <>Added by</>,
         bodyElement: (actorMovie: ActorMovie, _: any) => (
-          <>{actorMovie.username}</>
+          <Link to={`/users/${actorMovie.username}/`} title="View user details">
+            {actorMovie.username}
+          </Link>
         ),
         sortKey: "username",
       },

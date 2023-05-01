@@ -70,7 +70,11 @@ export const AllMovies = () => {
       },
       {
         headElement: <>Added by</>,
-        bodyElement: (movie: Movie, _: any) => <>{movie.username}</>,
+        bodyElement: (movie: Movie, _: any) => (
+          <Link to={`/users/${movie.username}/`} title="View user details">
+            {movie.username}
+          </Link>
+        ),
         sortKey: "username",
       },
       {
