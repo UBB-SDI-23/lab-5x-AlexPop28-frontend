@@ -17,6 +17,7 @@ import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
 import { AddMovieActor } from "./pages/movies/actors/AddMovieActor";
 import { AllMovieActors } from "./pages/movies/actors/AllMovieActors";
+import { UserDetails } from "./pages/users/UserDetails";
 
 export default () => {
   return (
@@ -47,6 +48,7 @@ export default () => {
             path="/directors/by_last_release_date"
             element={<DirectorsByLastMovie />}
           />
+          <Route path="/users/:username" element={<UserDetails />} />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>
