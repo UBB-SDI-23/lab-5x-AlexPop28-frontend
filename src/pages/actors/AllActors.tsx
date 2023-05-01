@@ -44,6 +44,11 @@ const getColumns = (page: number, pageSize: number) => {
       sortKey: "movie_count",
     },
     {
+      headElement: <>Added by</>,
+      bodyElement: (actor: Actor, _: any) => <>{actor.username}</>,
+      sortKey: "username",
+    },
+    {
       bodyElement: (actor: Actor, _: any) => (
         <IconButton component={Link} sx={{ mr: 3 }} to={`/actors/${actor.id}/`}>
           <EditIcon />

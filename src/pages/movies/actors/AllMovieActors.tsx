@@ -55,6 +55,13 @@ const getMovieActorsColumns =
         ),
         sortKey: "screen_time_in_minutes",
       },
+      {
+        headElement: <>Added by</>,
+        bodyElement: (actorMovie: ActorMovie, _: any) => (
+          <>{actorMovie.username}</>
+        ),
+        sortKey: "username",
+      },
     ];
   };
 

@@ -69,6 +69,11 @@ export const AllMovies = () => {
         sortKey: "actor_count",
       },
       {
+        headElement: <>Added by</>,
+        bodyElement: (movie: Movie, _: any) => <>{movie.username}</>,
+        sortKey: "username",
+      },
+      {
         bodyElement: (movie: Movie, _: any) => (
           <IconButton
             component={Link}
