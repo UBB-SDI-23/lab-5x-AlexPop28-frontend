@@ -10,6 +10,7 @@ export interface Actor {
   movie_count?: number;
   movies?: Movie[];
   total_income?: number;
+  username?: string;
 }
 
 export const isActorValid = (actor: Actor) => {

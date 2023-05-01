@@ -10,6 +10,7 @@ export interface Director {
   movie_count?: number;
   movies?: Movie[];
   last_movie_release_date?: string;
+  username?: string;
 }
 
 export const isDirectorValid = (director: Director) => {

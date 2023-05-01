@@ -9,6 +9,7 @@ export interface Movie {
   director: number | Director;
   actor_count?: number;
   actors?: number[];
+  username?: string;
 }
 
 export const isMovieValid = (movie: Movie) => {

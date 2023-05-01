@@ -8,4 +8,5 @@ export interface ActorMovie {
   actor: number;
   movie: number | Movie;
   actor_name?: string;
+  username?: string;
 }
