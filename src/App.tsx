@@ -8,6 +8,7 @@ import { ActorCreate } from "./pages/actors/ActorCreate";
 import { ActorEdit } from "./pages/actors/ActorEdit";
 import { ActorsByTotalIncome } from "./pages/actors/ActorsByTotalIncome";
 import { AllActors } from "./pages/actors/AllActors";
+import { Register } from "./pages/auth/Register";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
 import { DirectorEdit } from "./pages/directors/DirectorEdit";
@@ -49,6 +50,7 @@ export default () => {
             element={<DirectorsByLastMovie />}
           />
           <Route path="/users/:username" element={<UserDetails />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>
