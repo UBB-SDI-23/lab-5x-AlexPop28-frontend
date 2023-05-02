@@ -12,7 +12,6 @@ export const UserDetails = () => {
   const [userProfile, setUserProfile] = useState<UserProfile>({
     bio: "",
     location: "",
-    birthday: new Date(),
     gender: "",
   });
   const axios = useAxios();
@@ -36,7 +35,6 @@ export const UserDetails = () => {
         <GridLayout>
           <p>Bio: {userProfile.bio}</p>
           <p>Location: {userProfile.location}</p>
-          <p>Birthday: {userProfile.birthday.toString()}</p>
           <p>Gender: {userProfile.gender}</p>
           <p>Movies added: {userProfile.movie_count}</p>
           <p>Actors added: {userProfile.actor_count}</p>

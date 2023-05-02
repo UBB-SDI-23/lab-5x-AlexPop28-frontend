@@ -48,7 +48,6 @@ const RegisterForm: FC<RegisterFormProps> = () => {
         user: { username: values.username, password: values.password },
         bio: values.bio,
         location: values.location,
-        birthday: new Date(),
         gender: values.gender,
       };
       alert(JSON.stringify(profile, null, 2));
