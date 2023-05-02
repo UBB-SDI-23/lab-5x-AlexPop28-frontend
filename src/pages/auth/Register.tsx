@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   FormControl,
   FormHelperText,
@@ -8,32 +9,38 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import * as Yup from "Yup";
 import { useFormik } from "formik";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import * as yup from "yup";
 import { CardContainer } from "../../components/CardContainer";
 import { GridLayout } from "../../components/GridLayout";
+import useAxios from "../../lib/hooks/useAxios";
 import { UserProfile } from "../../models/UserProfile";
 
 interface RegisterFormProps {
   setActivationCode: Dispatch<SetStateAction<string>>;
+  setMessage: Dispatch<SetStateAction<string>>;
+  setSuccessful: Dispatch<SetStateAction<boolean | undefined>>;
 }
 
-const validationSchema = yup.object({
-  username: yup
-    .string()
+const validationSchema = Yup.object({
+  username: Yup.string()
     .min(4, "Username should be at least 4 characters long")
     .required("Username is required"),
-  password: yup
-    .string()
+  password: Yup.string()
     .min(8, "Password should be of minimum 8 characters length")
     .required("Password is required"),
-  bio: yup.string().required("Bio is required"),
-  location: yup.string().required("Location is required"),
-  gender: yup.string().required("Gender is required"),
+  bio: Yup.string().required("Bio is required"),
+  location: Yup.string().required("Location is required"),
+  gender: Yup.string().required("Gender is required"),
 });
 
-const RegisterForm: FC<RegisterFormProps> = () => {
+const RegisterForm: FC<RegisterFormProps> = ({
+  setActivationCode,
+  setMessage,
+  setSuccessful,
+}) => {
+  const axios = useAxios();
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -51,6 +58,24 @@ const RegisterForm: FC<RegisterFormProps> = () => {
         gender: values.gender,
       };
       alert(JSON.stringify(profile, null, 2));
+      const response = axios.post("/register/", profile).then(
+        (response) => {
+          setMessage("Registration successful");
+          setActivationCode(response.data.activation_code);
+          setSuccessful(true);
+        },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+
+          setMessage(resMessage);
+          setSuccessful(false);
+        }
+      );
     },
   });
 
@@ -126,17 +151,26 @@ const RegisterForm: FC<RegisterFormProps> = () => {
 
 export const Register = () => {
   const [activationCode, setActivationCode] = useState("");
+  const [message, setMessage] = useState("");
+  const [successful, setSuccessful] = useState<boolean>();
   const activationLink = window.location.host;
 
   return (
     <CardContainer title="Register">
       {!activationCode && (
-        <RegisterForm setActivationCode={setActivationCode} />
+        <RegisterForm
+          setActivationCode={setActivationCode}
+          setMessage={setMessage}
+          setSuccessful={setSuccessful}
+        />
+      )}
+      {successful !== undefined && (
+        <Alert severity={successful ? "success" : "error"}>{message}</Alert>
       )}
       {activationCode && (
         <Typography variant="h6">
-          Please go to {activationLink}/{activationCode} to activate your
-          account.
+          Please go to {activationLink}/activate/{activationCode} to activate
+          your account.
         </Typography>
       )}
     </CardContainer>
