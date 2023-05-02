@@ -8,6 +8,7 @@ import { ActorCreate } from "./pages/actors/ActorCreate";
 import { ActorEdit } from "./pages/actors/ActorEdit";
 import { ActorsByTotalIncome } from "./pages/actors/ActorsByTotalIncome";
 import { AllActors } from "./pages/actors/AllActors";
+import { Activate } from "./pages/auth/Activate";
 import { Register } from "./pages/auth/Register";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
@@ -51,6 +52,7 @@ export default () => {
           />
           <Route path="/users/:username" element={<UserDetails />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/activate/:activationCode" element={<Activate />} />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>
