@@ -19,9 +19,13 @@ export const AllObjects: React.FC<AllObjectsProps> = ({
   children,
 }) => {
   const navigate = useNavigate();
+  const user = localStorage.getItem("user");
   const [loading, setLoading] = useState(false);
   const [objects, setObjects] = useState<any[]>([]);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, setPageSize] = useState(() => {
+    if (!user || !JSON.parse(user).pageSize) return 10;
+    return JSON.parse(user).pageSize;
+  });
   const [count, setCount] = useState(0);
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(Number(searchParams.get("page")) || 1);

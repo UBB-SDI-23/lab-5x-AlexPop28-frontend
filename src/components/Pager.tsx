@@ -1,9 +1,15 @@
 import { Button, InputLabel, MenuItem, Select } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 
 interface PagerProps {
   page: number;
-  setPage: (page: number) => void;
+  setPage: Dispatch<SetStateAction<number>>;
   pageSize: number;
   setPageSize: (pageSize: number) => void;
   count: number;
@@ -17,6 +23,7 @@ export const Pager = ({
   count,
 }: PagerProps) => {
   const [pages, setPages] = useState<(number | string)[]>([]);
+  const user = localStorage.getItem("user");
   const pageCount = Math.ceil(count / pageSize);
   const siblings = 2;
 
