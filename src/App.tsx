@@ -10,6 +10,7 @@ import { ActorsByTotalIncome } from "./pages/actors/ActorsByTotalIncome";
 import { AllActors } from "./pages/actors/AllActors";
 import { Activate } from "./pages/auth/Activate";
 import { Login } from "./pages/auth/Login";
+import { Logout } from "./pages/auth/Logout";
 import { Register } from "./pages/auth/Register";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
@@ -55,6 +56,7 @@ export default () => {
           <Route path="/register" element={<Register />} />
           <Route path="/activate/:activationCode" element={<Activate />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
     </ConfirmProvider>
