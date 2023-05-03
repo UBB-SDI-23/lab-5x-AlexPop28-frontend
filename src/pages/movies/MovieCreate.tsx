@@ -20,7 +20,7 @@ export const MovieCreate = () => {
   const axios = useAxios();
   const onSubmit = async () => {
     try {
-      const { data } = await axios.post(`/movies`, movie);
+      const { data } = await axios.post(`/movies/`, movie);
       navigate(`/movies/${data.id}/`);
     } catch (error) {
       console.log(error);
