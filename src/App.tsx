@@ -1,5 +1,7 @@
 import { ConfirmProvider } from "material-ui-confirm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import "./constants";
@@ -59,6 +61,7 @@ export default () => {
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </ConfirmProvider>
   );
 };
