@@ -54,12 +54,6 @@ export const Pager = ({
   }, [page, pageSize, count]);
 
   useEffect(() => {
-    setPageSize(
-      (() => {
-        if (!user || !JSON.parse(user).pageSize) return 10;
-        return JSON.parse(user).pageSize;
-      })()
-    );
     computePages();
   }, [page, pageSize, count]);
 

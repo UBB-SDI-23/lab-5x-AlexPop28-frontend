@@ -1,4 +1,10 @@
-import { CircularProgress, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  CircularProgress,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CardContainer } from "../../components/CardContainer";
@@ -18,7 +24,7 @@ export const UserDetails = () => {
   });
   const user = localStorage.getItem("user");
   const [pageSize, setPageSize] = useState(() => {
-    if (user) return JSON.parse(user).username ?? 10;
+    if (user) return JSON.parse(user).pageSize ?? 10;
     return 10;
   });
   const axios = useAxios();
@@ -48,20 +54,22 @@ export const UserDetails = () => {
           <p>Actors added: {userProfile.actor_count}</p>
           <p>Directors added: {userProfile.director_count}</p>
           {user && (
-            <div style={{ display: "block" }}>
-              <InputLabel id="page-size-label" style={{ width: "100px" }}>
-                Page size
-              </InputLabel>
+            <FormControl fullWidth>
+              <InputLabel id="page-size-label">Page size</InputLabel>
               <Select
                 labelId="page-size-label"
                 label="Page size"
                 value={pageSize}
                 onChange={(event) => {
+                  event.preventDefault();
                   const newPageSize = Number(event.target.value);
-                  localStorage.setItem("user", {
-                    ...JSON.parse(user),
-                    pageSize: newPageSize,
-                  });
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                      ...JSON.parse(user),
+                      pageSize: newPageSize,
+                    })
+                  );
                   setPageSize(newPageSize);
                 }}
               >
@@ -69,7 +77,7 @@ export const UserDetails = () => {
                 <MenuItem value={25}>25</MenuItem>
                 <MenuItem value={100}>100</MenuItem>
               </Select>
-            </div>
+            </FormControl>
           )}
         </GridLayout>
       )}
