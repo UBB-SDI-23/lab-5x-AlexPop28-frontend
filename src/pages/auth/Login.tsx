@@ -40,7 +40,10 @@ const LoginForm: FC<LoginFormProps> = ({ setMessage, setSuccessful }) => {
       try {
         const { data } = await axios.post("/api/token/", user);
         if (data.access) {
-          localStorage.setItem("user", JSON.stringify(data));
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ ...data, username: user.username })
+          );
           alert(JSON.stringify(data));
           navigate("/");
         }
