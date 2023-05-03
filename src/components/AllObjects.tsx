@@ -55,7 +55,7 @@ export const AllObjects: React.FC<AllObjectsProps> = ({
             data={objects}
             columns={columns}
             noDataElement={
-              <Typography variant="h4">No actors found</Typography>
+              <Typography variant="h4">No objects found</Typography>
             }
           />
           <Pager

@@ -69,20 +69,23 @@ const getColumns = (page: number, pageSize: number) => {
 };
 
 export const AllDirectors = () => {
+  const user = localStorage.getItem("user");
   return (
     <AllObjects
       title="All directors"
       createUrl={createDirectorUrl}
       getColumns={getColumns}
     >
-      <Button
-        to={`/directors/add`}
-        component={Link}
-        sx={{ mr: 5 }}
-        startIcon={<PersonAddIcon />}
-      >
-        Add new director
-      </Button>
+      {user && (
+        <Button
+          to={`/directors/add`}
+          component={Link}
+          sx={{ mr: 5 }}
+          startIcon={<PersonAddIcon />}
+        >
+          Add new director
+        </Button>
+      )}
       <Button
         to="/directors/by_last_release_date"
         component={Link}

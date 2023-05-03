@@ -74,6 +74,7 @@ export const AllMovieActors = () => {
   const createUrl = useMemo(() => createMovieActorsUrl(movieId), []);
   const getColumns = useMemo(() => getMovieActorsColumns(movieId), []);
   const axios = useAxios();
+  const user = localStorage.getItem("user");
   const BASE_URL = `/movies/${movieId}/`;
 
   const fetchMovie = async () => {
@@ -103,16 +104,18 @@ export const AllMovieActors = () => {
           >
             <ArrowBackIcon />
           </IconButton>
-          <Button
-            variant={"text"}
-            to={`/movies/${movie.id}/actors/add`}
-            component={Link}
-            color="inherit"
-            sx={{ mr: 5 }}
-            startIcon={<PersonAddIcon />}
-          >
-            Add actor
-          </Button>
+          {user && (
+            <Button
+              variant={"text"}
+              to={`/movies/${movie.id}/actors/add`}
+              component={Link}
+              color="inherit"
+              sx={{ mr: 5 }}
+              startIcon={<PersonAddIcon />}
+            >
+              Add actor
+            </Button>
+          )}
         </AllObjects>
       )}
     </>

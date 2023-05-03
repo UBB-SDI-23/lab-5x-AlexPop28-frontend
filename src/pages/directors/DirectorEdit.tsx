@@ -23,6 +23,7 @@ export const DirectorEdit = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const axios = useAxios();
+  const user = localStorage.getItem("user");
   const BASE_URL = `/directors/${directorId}/`;
 
   const fetchDirector = async () => {
@@ -47,30 +48,34 @@ export const DirectorEdit = () => {
 
   const controlButtons = (
     <>
-      {disabled && (
-        <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
-          <Tooltip title="Make changes" arrow>
-            <LockIcon />
-          </Tooltip>
-        </IconButton>
-      )}
-      {!disabled && (
+      {user && (
         <>
-          <IconButton
-            sx={{ mr: 3 }}
-            disabled={!isDirectorValid(director)}
-            onClick={onSaveChanges}
-          >
-            <Tooltip title="Save changes" arrow>
-              <LockOpenIcon />
-            </Tooltip>
-          </IconButton>
-          <DeleteButton
-            onDelete={async () => {
-              await axios.delete(`/directors/${directorId}/`);
-              navigate("/directors");
-            }}
-          />
+          {disabled && (
+            <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
+              <Tooltip title="Make changes" arrow>
+                <LockIcon />
+              </Tooltip>
+            </IconButton>
+          )}
+          {!disabled && (
+            <>
+              <IconButton
+                sx={{ mr: 3 }}
+                disabled={!isDirectorValid(director)}
+                onClick={onSaveChanges}
+              >
+                <Tooltip title="Save changes" arrow>
+                  <LockOpenIcon />
+                </Tooltip>
+              </IconButton>
+              <DeleteButton
+                onDelete={async () => {
+                  await axios.delete(`/directors/${directorId}/`);
+                  navigate("/directors");
+                }}
+              />
+            </>
+          )}
         </>
       )}
     </>

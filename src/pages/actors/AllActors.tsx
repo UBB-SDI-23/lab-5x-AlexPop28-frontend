@@ -63,20 +63,23 @@ const getColumns = (page: number, pageSize: number) => {
 };
 
 export const AllActors = () => {
+  const user = localStorage.getItem("user");
   return (
     <AllObjects
       title="All actors"
       createUrl={createActorUrl}
       getColumns={getColumns}
     >
-      <Button
-        to={`/actors/add`}
-        component={Link}
-        sx={{ mr: 5 }}
-        startIcon={<PersonAddIcon />}
-      >
-        Add new actor
-      </Button>
+      {user && (
+        <Button
+          to={`/actors/add`}
+          component={Link}
+          sx={{ mr: 5 }}
+          startIcon={<PersonAddIcon />}
+        >
+          Add new actor
+        </Button>
+      )}
       <Button
         to="/actors/by_total_income"
         component={Link}
