@@ -93,7 +93,7 @@ export const Login = () => {
   const [successful, setSuccessful] = useState<boolean>();
 
   return (
-    <CardContainer title="Register">
+    <CardContainer title="Login">
       <LoginForm setMessage={setMessage} setSuccessful={setSuccessful} />
       {successful !== undefined && (
         <Alert severity={successful ? "success" : "error"}>{message}</Alert>

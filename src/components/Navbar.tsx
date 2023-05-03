@@ -1,4 +1,6 @@
 import LocalMoviesIcon from "@mui/icons-material/LocalMovies";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MovieIcon from "@mui/icons-material/Movie";
 import PersonIcon from "@mui/icons-material/Person";
 import {
@@ -10,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+
 export const Navbar = () => {
   const location = useLocation();
   const path = location.pathname;
@@ -62,6 +65,45 @@ export const Navbar = () => {
           >
             Directors
           </Button>
+          <Box display="flex" flexGrow={1} justifyContent="flex-end">
+            {!localStorage.getItem("user") && (
+              <>
+                <Button
+                  variant={path.startsWith("/login") ? "outlined" : "text"}
+                  to="/login"
+                  component={Link}
+                  color="inherit"
+                  sx={{ mr: 5 }}
+                  startIcon={<LoginIcon />}
+                >
+                  Login
+                </Button>
+                <Button
+                  variant={path.startsWith("/register") ? "outlined" : "text"}
+                  to="/register"
+                  component={Link}
+                  color="inherit"
+                  sx={{ mr: 5 }}
+                >
+                  Register
+                </Button>
+              </>
+            )}
+            {localStorage.getItem("user") && (
+              <>
+                <Button
+                  variant={path.startsWith("/logout") ? "outlined" : "text"}
+                  to="/logout"
+                  component={Link}
+                  color="inherit"
+                  sx={{ mr: 5 }}
+                  startIcon={<LogoutIcon />}
+                >
+                  Logout
+                </Button>
+              </>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>
