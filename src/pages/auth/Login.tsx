@@ -36,7 +36,6 @@ const LoginForm: FC<LoginFormProps> = ({ setMessage, setSuccessful }) => {
         username: values.username,
         password: values.password,
       };
-      alert(JSON.stringify(user, null, 2));
       try {
         const { data } = await axios.post("/api/token/", user);
         if (data.access) {
@@ -44,7 +43,6 @@ const LoginForm: FC<LoginFormProps> = ({ setMessage, setSuccessful }) => {
             "user",
             JSON.stringify({ ...data, username: user.username })
           );
-          alert(JSON.stringify(data));
           navigate("/");
         }
       } catch (error: any) {

@@ -16,6 +16,7 @@ import { Link, useLocation } from "react-router-dom";
 export const Navbar = () => {
   const location = useLocation();
   const path = location.pathname;
+  const user = localStorage.getItem("user");
 
   return (
     <Box sx={{ flexGrow: 1, mb: 10 }}>
@@ -66,7 +67,7 @@ export const Navbar = () => {
             Directors
           </Button>
           <Box display="flex" flexGrow={1} justifyContent="flex-end">
-            {!localStorage.getItem("user") && (
+            {!user && (
               <>
                 <Button
                   variant={path.startsWith("/login") ? "outlined" : "text"}
@@ -89,8 +90,17 @@ export const Navbar = () => {
                 </Button>
               </>
             )}
-            {localStorage.getItem("user") && (
+            {user && (
               <>
+                <Button
+                  variant={path.startsWith("/users") ? "outlined" : "text"}
+                  to={`/users/${JSON.parse(user).username}`}
+                  component={Link}
+                  color="inherit"
+                  sx={{ mr: 5 }}
+                >
+                  {JSON.parse(user).username}
+                </Button>
                 <Button
                   variant={path.startsWith("/logout") ? "outlined" : "text"}
                   to="/logout"
