@@ -44,6 +44,15 @@ const getColumns = (page: number, pageSize: number) => {
       sortKey: "movie_count",
     },
     {
+      headElement: <>Added by</>,
+      bodyElement: (actor: Actor, _: any) => (
+        <Link to={`/users/${actor.username}/`} title="View user details">
+          {actor.username}
+        </Link>
+      ),
+      sortKey: "username",
+    },
+    {
       bodyElement: (actor: Actor, _: any) => (
         <IconButton component={Link} sx={{ mr: 3 }} to={`/actors/${actor.id}/`}>
           <EditIcon />
@@ -54,20 +63,23 @@ const getColumns = (page: number, pageSize: number) => {
 };
 
 export const AllActors = () => {
+  const user = localStorage.getItem("user");
   return (
     <AllObjects
       title="All actors"
       createUrl={createActorUrl}
       getColumns={getColumns}
     >
-      <Button
-        to={`/actors/add`}
-        component={Link}
-        sx={{ mr: 5 }}
-        startIcon={<PersonAddIcon />}
-      >
-        Add new actor
-      </Button>
+      {user && (
+        <Button
+          to={`/actors/add`}
+          component={Link}
+          sx={{ mr: 5 }}
+          startIcon={<PersonAddIcon />}
+        >
+          Add new actor
+        </Button>
+      )}
       <Button
         to="/actors/by_total_income"
         component={Link}

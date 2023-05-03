@@ -1,9 +1,8 @@
 import EditIcon from "@mui/icons-material/Edit";
 import { Button, IconButton, TextField } from "@mui/material";
 import { useCallback, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { AllObjects } from "../../components/AllObjects";
-import useAxios from "../../lib/hooks/useAxios";
 import { Movie } from "../../models/movie";
 
 const createMovieUrl = (page: number, pageSize: number, minRating: number) => {
@@ -20,8 +19,7 @@ export const AllMovies = () => {
     Number(searchParams.get("min_rating")) || 0
   );
   const [inputMinRating, setInputMinRating] = useState(0);
-  const navigate = useNavigate();
-  const axios = useAxios();
+  const user = localStorage.getItem("user");
 
   const createUrl = useCallback(
     (page: number, pageSize: number) =>
@@ -69,6 +67,15 @@ export const AllMovies = () => {
         sortKey: "actor_count",
       },
       {
+        headElement: <>Added by</>,
+        bodyElement: (movie: Movie, _: any) => (
+          <Link to={`/users/${movie.username}/`} title="View user details">
+            {movie.username}
+          </Link>
+        ),
+        sortKey: "username",
+      },
+      {
         bodyElement: (movie: Movie, _: any) => (
           <IconButton
             component={Link}
@@ -96,11 +103,13 @@ export const AllMovies = () => {
       <Button onClick={() => setMinRating(inputMinRating)}>Filter</Button>
       <br />
 
-      <Button>
-        <Link to={`/movies/add`} title="Add new movie">
-          Add new movie
-        </Link>
-      </Button>
+      {user && (
+        <Button>
+          <Link to={`/movies/add`} title="Add new movie">
+            Add new movie
+          </Link>
+        </Button>
+      )}
     </AllObjects>
   );
 };

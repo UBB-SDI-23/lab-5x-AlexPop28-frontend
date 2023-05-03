@@ -29,6 +29,7 @@ export const ActorEdit = () => {
   const navigate = useNavigate();
   const axios = useAxios();
   const BASE_URL = `/actors/${actorId}/`;
+  const user = localStorage.getItem("user");
 
   const fetchActor = async () => {
     setLoading(true);
@@ -52,30 +53,34 @@ export const ActorEdit = () => {
 
   const controlButtons = (
     <>
-      {disabled && (
-        <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
-          <Tooltip title="Make changes" arrow>
-            <LockIcon />
-          </Tooltip>
-        </IconButton>
-      )}
-      {!disabled && (
+      {user && (
         <>
-          <IconButton
-            sx={{ mr: 3 }}
-            disabled={!isActorValid(actor)}
-            onClick={onSaveChanges}
-          >
-            <Tooltip title="Save changes" arrow>
-              <LockOpenIcon />
-            </Tooltip>
-          </IconButton>
-          <DeleteButton
-            onDelete={async () => {
-              await axios.delete(`/actors/${actorId}/`);
-              navigate("/actors");
-            }}
-          />
+          {disabled && (
+            <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
+              <Tooltip title="Make changes" arrow>
+                <LockIcon />
+              </Tooltip>
+            </IconButton>
+          )}
+          {!disabled && (
+            <>
+              <IconButton
+                sx={{ mr: 3 }}
+                disabled={!isActorValid(actor)}
+                onClick={onSaveChanges}
+              >
+                <Tooltip title="Save changes" arrow>
+                  <LockOpenIcon />
+                </Tooltip>
+              </IconButton>
+              <DeleteButton
+                onDelete={async () => {
+                  await axios.delete(`/actors/${actorId}/`);
+                  navigate("/actors");
+                }}
+              />
+            </>
+          )}
         </>
       )}
     </>

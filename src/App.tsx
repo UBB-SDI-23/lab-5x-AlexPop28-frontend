@@ -1,5 +1,7 @@
 import { ConfirmProvider } from "material-ui-confirm";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import { Navbar } from "./components/Navbar";
 import "./constants";
@@ -8,6 +10,10 @@ import { ActorCreate } from "./pages/actors/ActorCreate";
 import { ActorEdit } from "./pages/actors/ActorEdit";
 import { ActorsByTotalIncome } from "./pages/actors/ActorsByTotalIncome";
 import { AllActors } from "./pages/actors/AllActors";
+import { Activate } from "./pages/auth/Activate";
+import { Login } from "./pages/auth/Login";
+import { Logout } from "./pages/auth/Logout";
+import { Register } from "./pages/auth/Register";
 import { AllDirectors } from "./pages/directors/AllDirectors";
 import { DirectorCreate } from "./pages/directors/DirectorCreate";
 import { DirectorEdit } from "./pages/directors/DirectorEdit";
@@ -17,6 +23,7 @@ import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
 import { AddMovieActor } from "./pages/movies/actors/AddMovieActor";
 import { AllMovieActors } from "./pages/movies/actors/AllMovieActors";
+import { UserDetails } from "./pages/users/UserDetails";
 
 export default () => {
   return (
@@ -47,8 +54,14 @@ export default () => {
             path="/directors/by_last_release_date"
             element={<DirectorsByLastMovie />}
           />
+          <Route path="/users/:username" element={<UserDetails />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/activate/:activationCode" element={<Activate />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer />
     </ConfirmProvider>
   );
 };
