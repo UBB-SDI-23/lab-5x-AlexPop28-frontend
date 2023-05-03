@@ -15,7 +15,10 @@ export default function useAxios() {
   axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-      toast.error(error.message);
+      let msg = error.message;
+      if (error.response && error.response.data && error.response.data.detail)
+        msg += ": " + error.response.data.detail;
+      toast.error(msg);
       return Promise.reject(error);
     }
   );
