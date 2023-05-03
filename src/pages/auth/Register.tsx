@@ -33,6 +33,8 @@ const validationSchema = Yup.object({
   bio: Yup.string().required("Bio is required"),
   location: Yup.string().required("Location is required"),
   gender: Yup.string().required("Gender is required"),
+  birthday: Yup.date().max(new Date()).required("Birthday is required"),
+  marital_status: Yup.string().required("Marital status is required"),
 });
 
 const RegisterForm: FC<RegisterFormProps> = ({
@@ -47,35 +49,36 @@ const RegisterForm: FC<RegisterFormProps> = ({
       password: "",
       bio: "",
       location: "",
+      birthday: "",
       gender: "",
+      marital_status: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const profile: UserProfile = {
         user: { username: values.username, password: values.password },
         bio: values.bio,
         location: values.location,
         gender: values.gender,
+        birthday: values.birthday,
+        marital_status: values.marital_status,
       };
-      alert(JSON.stringify(profile, null, 2));
-      const response = axios.post("/register/", profile).then(
-        (response) => {
-          setMessage("Registration successful");
-          setActivationCode(response.data.activation_code);
-          setSuccessful(true);
-        },
-        (error) => {
-          const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+      try {
+        const response = await axios.post("/register/", profile);
+        setMessage("Registration successful");
+        setActivationCode(response.data.activation_code);
+        setSuccessful(true);
+      } catch (error: any) {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
 
-          setMessage(resMessage);
-          setSuccessful(false);
-        }
-      );
+        setMessage(resMessage);
+        setSuccessful(false);
+      }
     },
   });
 
@@ -119,6 +122,45 @@ const RegisterForm: FC<RegisterFormProps> = ({
           helperText={formik.touched.location && formik.errors.location}
           fullWidth
         />
+        <TextField
+          name="birthday"
+          label="Birthday"
+          value={formik.values.birthday}
+          onChange={formik.handleChange}
+          error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+          helperText={formik.touched.birthday && formik.errors.birthday}
+          fullWidth
+        />
+        <FormControl
+          error={
+            formik.touched.marital_status &&
+            Boolean(formik.errors.marital_status)
+          }
+          fullWidth
+        >
+          <InputLabel id="marital_status-label">Marital status</InputLabel>
+          <Select
+            name="marital_status"
+            label="marital_status"
+            labelId="marital_status-label"
+            value={formik.values.marital_status}
+            onChange={formik.handleChange}
+            error={
+              formik.touched.marital_status &&
+              Boolean(formik.errors.marital_status)
+            }
+            fullWidth
+          >
+            <MenuItem value="Single">Single</MenuItem>
+            <MenuItem value="Married">Married</MenuItem>
+            <MenuItem value="Divorced">Divorced</MenuItem>
+            <MenuItem value="Widowed">Widowed</MenuItem>
+          </Select>
+          <FormHelperText>
+            {formik.touched.marital_status && formik.errors.marital_status}
+          </FormHelperText>
+        </FormControl>
+
         <FormControl
           error={formik.touched.gender && Boolean(formik.errors.gender)}
           fullWidth
