@@ -10,6 +10,7 @@ import { ActorCreate } from "./pages/actors/ActorCreate";
 import { ActorEdit } from "./pages/actors/ActorEdit";
 import { ActorsByTotalIncome } from "./pages/actors/ActorsByTotalIncome";
 import { AllActors } from "./pages/actors/AllActors";
+import { AdminPage } from "./pages/admin/AdminPage";
 import { Activate } from "./pages/auth/Activate";
 import { Login } from "./pages/auth/Login";
 import { Logout } from "./pages/auth/Logout";
@@ -57,6 +58,7 @@ export default () => {
           />
           <Route path="/users" element={<AllUsers />} />
           <Route path="/users/:username" element={<UserDetails />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/activate/:activationCode" element={<Activate />} />
           <Route path="/login" element={<Login />} />
