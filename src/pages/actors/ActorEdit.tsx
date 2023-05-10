@@ -14,6 +14,7 @@ import { DeleteButton } from "../../components/DeleteButton";
 import { ActorForm } from "../../components/custom/ActorForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Actor, isActorValid } from "../../models/actor";
+import { hasEditPermission } from "../../utils/permissions";
 
 export const ActorEdit = () => {
   const { actorId } = useParams();
@@ -23,13 +24,14 @@ export const ActorEdit = () => {
     date_of_birth: "",
     birthplace: "",
     height_in_cm: 0,
+    username: "",
   });
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
+  const [controlButtons, setControlButtons] = useState<JSX.Element>(<></>);
   const navigate = useNavigate();
   const axios = useAxios();
   const BASE_URL = `/actors/${actorId}/`;
-  const user = localStorage.getItem("user");
 
   const fetchActor = async () => {
     setLoading(true);
@@ -42,18 +44,10 @@ export const ActorEdit = () => {
     fetchActor();
   }, []);
 
-  const onSaveChanges = async () => {
-    try {
-      const { data } = await axios.put(BASE_URL, actor);
-      setDisabled(true);
-    } catch (error: any) {
-      console.log(error);
-    }
-  };
-
-  const controlButtons = (
-    <>
-      {user && (
+  useEffect(() => {
+    if (hasEditPermission(actor)) {
+      console.log("GRANTED");
+      setControlButtons(
         <>
           {disabled && (
             <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
@@ -82,9 +76,20 @@ export const ActorEdit = () => {
             </>
           )}
         </>
-      )}
-    </>
-  );
+      );
+    } else {
+      setControlButtons(<></>);
+    }
+  }, [actor, disabled]);
+
+  const onSaveChanges = async () => {
+    try {
+      const { data } = await axios.put(BASE_URL, actor);
+      setDisabled(true);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   return (
     <CardContainer title={`${disabled ? "About the" : "Edit"} actor`}>
