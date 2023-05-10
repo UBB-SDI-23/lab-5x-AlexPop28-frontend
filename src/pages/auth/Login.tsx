@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import { CardContainer } from "../../components/CardContainer";
 import { GridLayout } from "../../components/GridLayout";
 import useAxios from "../../lib/hooks/useAxios";
+import { LocalStorageUser } from "../../models/LocalStorageUser";
 import { User } from "../../models/User";
 
 interface LoginFormProps {
@@ -39,10 +40,16 @@ const LoginForm: FC<LoginFormProps> = ({ setMessage, setSuccessful }) => {
       try {
         const { data } = await axios.post("/api/token/", user);
         if (data.access) {
-          localStorage.setItem(
-            "user",
-            JSON.stringify({ ...data, username: user.username })
-          );
+          const {
+            data: { role },
+          } = await axios.get(`/users/${user.username}/`);
+
+          const localStorageUser: LocalStorageUser = {
+            tokens: { ...data },
+            username: user.username,
+            role: role,
+          };
+          localStorage.setItem("user", JSON.stringify(localStorageUser));
           navigate("/");
         }
       } catch (error: any) {

@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+import { isAdmin } from "../utils/permissions";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -66,6 +67,27 @@ export const Navbar = () => {
           >
             Directors
           </Button>
+          <Button
+            variant={path.startsWith("/users") ? "outlined" : "text"}
+            to="/users"
+            component={Link}
+            color="inherit"
+            sx={{ mr: 5 }}
+            startIcon={<PersonIcon />}
+          >
+            Users
+          </Button>
+          {isAdmin() && (
+            <Button
+              variant={path.startsWith("/admin") ? "outlined" : "text"}
+              to="/admin"
+              component={Link}
+              color="inherit"
+              sx={{ mr: 5 }}
+            >
+              Admin
+            </Button>
+          )}
           <Box display="flex" flexGrow={1} justifyContent="flex-end">
             {!user && (
               <>
