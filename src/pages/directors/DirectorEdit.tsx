@@ -9,6 +9,7 @@ import { DeleteButton } from "../../components/DeleteButton";
 import { DirectorForm } from "../../components/custom/DirectorForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director, isDirectorValid } from "../../models/director";
+import { hasEditPermission } from "../../utils/permissions";
 
 export const DirectorEdit = () => {
   const { directorId } = useParams();
@@ -23,6 +24,7 @@ export const DirectorEdit = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const axios = useAxios();
+  const [controlButtons, setControlButtons] = useState(<></>);
   const user = localStorage.getItem("user");
   const BASE_URL = `/directors/${directorId}/`;
 
@@ -46,9 +48,9 @@ export const DirectorEdit = () => {
     }
   };
 
-  const controlButtons = (
-    <>
-      {user && (
+  useEffect(() => {
+    if (hasEditPermission(director)) {
+      setControlButtons(
         <>
           {disabled && (
             <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
@@ -77,9 +79,11 @@ export const DirectorEdit = () => {
             </>
           )}
         </>
-      )}
-    </>
-  );
+      );
+    } else {
+      setControlButtons(<></>);
+    }
+  }, [director, disabled]);
 
   return (
     <CardContainer title={`${disabled ? "About the" : "Edit"} director`}>
