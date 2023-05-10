@@ -66,6 +66,16 @@ export const Navbar = () => {
           >
             Directors
           </Button>
+          <Button
+            variant={path.startsWith("/users") ? "outlined" : "text"}
+            to="/users"
+            component={Link}
+            color="inherit"
+            sx={{ mr: 5 }}
+            startIcon={<PersonIcon />}
+          >
+            Users
+          </Button>
           <Box display="flex" flexGrow={1} justifyContent="flex-end">
             {!user && (
               <>

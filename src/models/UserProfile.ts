@@ -10,4 +10,10 @@ export interface UserProfile {
   movie_count?: number;
   actor_count?: number;
   director_count?: number;
+  role?: string;
+}
+
+export interface UsernameRoleDTO {
+  username: string;
+  role: string;
 }

@@ -25,7 +25,6 @@ export const DirectorEdit = () => {
   const navigate = useNavigate();
   const axios = useAxios();
   const [controlButtons, setControlButtons] = useState(<></>);
-  const user = localStorage.getItem("user");
   const BASE_URL = `/directors/${directorId}/`;
 
   const fetchDirector = async () => {

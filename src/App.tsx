@@ -23,6 +23,7 @@ import { MovieCreate } from "./pages/movies/MovieCreate";
 import { MovieEdit } from "./pages/movies/MovieEdit";
 import { AddMovieActor } from "./pages/movies/actors/AddMovieActor";
 import { AllMovieActors } from "./pages/movies/actors/AllMovieActors";
+import { AllUsers } from "./pages/users/AllUsers";
 import { UserDetails } from "./pages/users/UserDetails";
 
 export default () => {
@@ -54,6 +55,7 @@ export default () => {
             path="/directors/by_last_release_date"
             element={<DirectorsByLastMovie />}
           />
+          <Route path="/users" element={<AllUsers />} />
           <Route path="/users/:username" element={<UserDetails />} />
           <Route path="/register" element={<Register />} />
           <Route path="/activate/:activationCode" element={<Activate />} />
