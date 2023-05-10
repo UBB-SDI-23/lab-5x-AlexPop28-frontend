@@ -11,6 +11,7 @@ import { MovieForm } from "../../components/custom/MovieForm";
 import useAxios from "../../lib/hooks/useAxios";
 import { Director } from "../../models/director";
 import { Movie, isMovieValid } from "../../models/movie";
+import { hasEditPermission } from "../../utils/permissions";
 
 export const MovieEdit = () => {
   const { movieId } = useParams();
@@ -26,7 +27,7 @@ export const MovieEdit = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const axios = useAxios();
-  const user = localStorage.getItem("user");
+  const [controlButtons, setControlButtons] = useState(<></>);
   const BASE_URL = `/movies/${movieId}/`;
 
   const fetchMovie = async () => {
@@ -50,9 +51,9 @@ export const MovieEdit = () => {
     }
   };
 
-  const controlButtons = (
-    <>
-      {user && (
+  useEffect(() => {
+    if (hasEditPermission(movie)) {
+      setControlButtons(
         <>
           {disabled && (
             <IconButton sx={{ mr: 3 }} onClick={() => setDisabled(false)}>
@@ -81,9 +82,11 @@ export const MovieEdit = () => {
             </>
           )}
         </>
-      )}
-    </>
-  );
+      );
+    } else {
+      setControlButtons(<></>);
+    }
+  }, [movie, disabled]);
 
   return (
     <CardContainer title={`${disabled ? "About the" : "Edit"} movie`}>
